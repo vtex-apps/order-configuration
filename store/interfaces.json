@@ -1,0 +1,5 @@
+{
+  "custom-price-selector": {
+    "component": "CustomPriceSelector"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "store/countdown.title": "Contagem regressiva",
+  "editor.countdown.title": "Contagem regressiva",
+  "editor.countdown.description": "Componente de contagem regressiva",
+  "editor.countdown-title.title": "Título do Countdown",
+  "editor.countdown-title.description": "Título do componente de countdown",
+  "editor.countdown-gif.title": "Gif do Countdown",
+  "editor.countdown-gif.description": "Gif do componente de Countdown",
+  "editor.countdown.targetDate.title": "Data de término",
+  "editor.countdown.targetDate.description": "Data de término que está sendo contada",
+  "editor.countdown.title.title": "Título",
+  "editor.countdown.searchTerm.title": "Busca"
+}

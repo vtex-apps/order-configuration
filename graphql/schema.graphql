@@ -1,0 +1,21 @@
+type Query {
+
+  """
+  Get profile information to session users
+  """
+  getSession: Session @cacheControl(scope: PRIVATE)
+  
+  """
+    Get customSessionKeys from Session
+  """
+  getCustomSessionKeys: CustomSessionKeyResponse @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
+}
+
+type Mutation {
+  """
+    Update customSessionKeys in Session
+  """
+  updateCustomSessionKeys(
+    sessionData: CustomSessionInput!
+  ): CustomSessionKeyResponse @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
+}

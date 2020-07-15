@@ -1,0 +1,13 @@
+{
+  "store/countdown.title": "Countdown",
+  "editor.countdown.title": "Countdown",
+  "editor.countdown.description": "Countdown component",
+  "editor.countdown-title.title": "Countdown Title",
+  "editor.countdown-title.description": "Countdown title component",
+  "editor.countdown-gif.title": "Countdown Gif",
+  "editor.countdown-gif.description": "Countdown gif component",
+  "editor.countdown.targetDate.title": "Target date",
+  "editor.countdown.targetDate.description": "Target date to which the countdown is counting to",
+  "editor.countdown.title.title": "Title",
+  "editor.countdown.searchTerm.title": "Search term"
+}

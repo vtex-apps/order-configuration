@@ -1,0 +1,5 @@
+query getCustomSessionKeys {
+  getCustomSessionKeys @context(provider: "b2bstore.custom-price-selector") {
+    customSessionKeys
+  }
+}
