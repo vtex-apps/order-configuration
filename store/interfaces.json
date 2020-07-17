@@ -1,5 +1,6 @@
 {
   "custom-price-selector": {
-    "component": "CustomPriceSelector"
+    "component": "CustomPriceSelector",
+    "composition": "children"
   }
 }

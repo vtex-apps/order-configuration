@@ -9,6 +9,11 @@ type Query {
     Get customSessionKeys from Session
   """
   getCustomSessionKeys: CustomSessionKeyResponse @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
+
+  """
+    Get custom price schema
+  """
+  customPriceSchema: CustomPriceSchema
 }
 
 type Mutation {

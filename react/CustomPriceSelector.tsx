@@ -1,113 +1,101 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo'
-// import { useInput, FormContext } from 'react-hook-form-jsonschema'
-import { Button, ModalDialog, RadioGroup } from 'vtex.styleguide'
+import { UITypes } from 'react-hook-form-jsonschema'
+import { Button, Modal } from 'vtex.styleguide'
 
+import { ObjectMapper } from './components/Object'
+import { FormHandler } from './components/FormHandler'
+import FormSubmit from './FormSubmit'
+
+import getCustomPriceSchema from './queries/getCustomPriceSchema.graphql'
 import getCustomSessionKeys from './queries/getCustomSessionKeys.graphql'
 
 const CustomPriceSelector: StorefrontFunctionComponent<
   CustomPriceSelectorProps
-> = ({ formTitle = 'Order Configuration' }) => {
-  const { data, loading } = useQuery(getCustomSessionKeys, {
-    // variables: {
-    //   query: searchTerm
-    // },
+> = props => {
+  const { data: customSessionData, loading: customSessionLoading } = useQuery(
+    getCustomSessionKeys,
+    {
+      ssr: false,
+    }
+  )
+
+  const {
+    // data: customPriceSchemaData,
+    loading: customPriceSchemaLoading,
+  } = useQuery(getCustomPriceSchema, {
     ssr: false,
   })
 
   const [isModalOpen, setModalOpen] = useState(false)
-  const [orderType, setOrderType] = useState('resale')
-  // const [paymentMethod, setPaymentMethod] = useState('promissory_note')
-  // const [paymentTerm, setPaymentTerm] = useState('30/60')
 
-  console.log(formTitle)
-  console.log(data)
+  console.log(customSessionLoading)
+  console.log(customSessionData)
 
-  // const configSchema = {
-  //   // $id: 'https://example.com/config.schema.json',
-  //   // $schema: 'http://json-schema.org/draft-07/schema#',
-  //   // title: 'Order Configuration',
-  //   // type: 'object',
-  //   properties: {
-  //     orderType: {
-  //       type: 'string',
-  //       description: 'Type of order',
-  //     },
-  //   },
-  // }
+  if (customSessionLoading || customPriceSchemaLoading) {
+    return <div>Loading...</div>
+  }
 
-  // const orderTypeInput = useInput('#/properties/orderType')
+  // let customPriceSchema = customPriceSchemaData.customPriceSchema.schema
+  const customPriceSchema = {
+    type: 'object',
+    properties: {
+      orderType: {
+        type: 'string',
+        enum: ['Type 1', 'Type 2'],
+        title: 'Order Type',
+      }
+    }
+  }
+
+  const { children } = props
+
+  const UISchema = {
+    type: UITypes.default,
+    properties: {
+      orderType: {
+        type: UITypes.select,
+        items: [
+          {type3: 'Type 3'},
+          {type4: 'Type 4'}
+        ]
+      },
+    },
+  }
 
   return (
     <div className="tc">
-      {!loading && (
-        <div>
-          <Button onClick={() => setModalOpen(!isModalOpen)}>
-            {formTitle}
-          </Button>
+      <div>
+        <Button onClick={() => setModalOpen(!isModalOpen)}>
+          {props.formTitle}
+        </Button>
 
-          <ModalDialog
-            centered
-            confirmation={{
-              onClick: () => setModalOpen(!isModalOpen),
-              label: 'Send',
-            }}
-            cancelation={{
-              onClick: () => setModalOpen(!isModalOpen),
-              label: 'Cancel',
-            }}
-            isOpen={isModalOpen}
-            onClose={() => setModalOpen(!isModalOpen)}
-          >
-            {/* <FormContext schema={configSchema}> */}
-            <div className="flex flex-column flex-row-ns">
-              <div className="w-100 mv4 pv6-ns pl6-ns">
-                <div className="w-100 mv6">
-                  <RadioGroup
-                    // error={state.error}
-                    // errorMessage={state.error && state.errorMessage}
-                    name="orderType"
-                    options={[
-                      { value: 'resale', label: 'Resale' },
-                      { value: 'consumption', label: 'Consumption' },
-                      { value: 'industrialization', label: 'Industrialization' },
-                    ]}
-                    value={orderType}
-                    onChange={({ target: { value } }: { target: { value: string } }) =>
-                      setOrderType(value)
-                    }
-                  />
-                  {/* <label {...orderTypeInput.getLabelProps()}>
-                      {orderTypeInput.name}
-                    </label>
-                    <input {...orderTypeInput.getInputProps()} /> */}
-                </div>
-                {/* <div className="w-100 mv6">
-                <Input placeholder="Last name" size="large" />
-              </div>
-              <div className="w-100 mv6">
-                <Input placeholder="Corporate email" size="large" />
-              </div>
-              <div className="w-100 mv6">
-                <Input placeholder="Company" size="large" />
-              </div>
-              <div className="w-100 mv6">
-                <Input placeholder="Annual revenue" size="large" />
-              </div>
-              <div className="w-100 mv6">
-                <Input placeholder="Do you have e-commerce?" size="large" />
-              </div> */}
-              </div>
+        <Modal
+          centered
+          isOpen={isModalOpen}
+          onClose={() => setModalOpen(!isModalOpen)}
+        >
+          <div className="flex flex-column flex-row-ns">
+            <div className="w-100 mv4 pv6-ns pl6-ns">
+              {!React.Children.count(children) ? (
+                <FormHandler schema={customPriceSchema} formProps={props}>
+                  <ObjectMapper pointer="#" uiSchema={UISchema} />
+                  <FormSubmit label="Submit" />
+                </FormHandler>
+              ) : (
+                <FormHandler schema={customPriceSchema} formProps={props}>
+                  {children}
+                </FormHandler>
+              )}
             </div>
-            {/* </FormContext> */}
-          </ModalDialog>
-        </div>
-      )}
+          </div>
+        </Modal>
+      </div>
     </div>
   )
 }
 
-interface CustomPriceSelectorProps {
+type CustomPriceSelectorProps = {
   formTitle: string
 }
 

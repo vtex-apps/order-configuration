@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "axios": "^0.19.2",
     "co-body": "^6.0.0",
     "cookie": "^0.4.1",
     "jsonwebtoken": "^8.5.1",
