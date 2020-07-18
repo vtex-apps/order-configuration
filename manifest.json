@@ -20,14 +20,15 @@
   "dependencies": {
     "vtex.styleguide": "9.x",
     "vtex.css-handles": "0.x",
-    "vtex.native-types": "0.x"
+    "vtex.native-types": "0.x",
+    "vtex.store-graphql": "2.x"
   },
   "policies": [
     {
       "name": "outbound-access",
       "attrs": {
-        "host": "{{account}}.myvtex.com",
-        "path": "/api/sessions"
+        "host": "portal.vtexcommercestable.com.br",
+        "path": "/api/sessions/*"
       }
     }
   ],

@@ -3,7 +3,7 @@ import { sessionFields } from './sessionResolver'
 
 export const VTEX_SESSION = 'vtex_session'
 
-export async function getSession(context: Context) {
+export async function getCustomSessionKeys(context: Context) {
   const {
     clients: { customSession },
     cookies,
@@ -16,7 +16,7 @@ export async function getSession(context: Context) {
       `Invalid request for session, the ${VTEX_SESSION} wasn't provided!`
     )
 
-  const { sessionData } = await customSession.getSession(sessionCookie, ['*'])
+  const { sessionData } = await customSession.getSession(sessionCookie, ['public.customSessionKeys'])
 
   return sessionFields(sessionData)
 }

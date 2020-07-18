@@ -1,10 +1,10 @@
 import { serialize } from 'cookie'
 import { identity } from 'ramda'
 import { vtexIdCookies } from '../../utils/vtexId'
-import { VTEX_SESSION, getSession } from './service'
+import { VTEX_SESSION, getCustomSessionKeys } from './service'
 
 interface CustomSessionArg {
-  document: { document: any }
+  sessionData: { sessionData: any }
 }
 
 const CUSTOM_SESSSION_KEY = 'customSessionKeys'
@@ -15,13 +15,13 @@ export const queries = {
    * Get user session
    * @return Session
    */
-  getSession: async (_: any, __: any, ctx: Context) => {
-    return getSession(ctx)
+  getCustomSessionKeys: async (_: any, __: any, ctx: Context) => {
+    return getCustomSessionKeys(ctx)
   },
 }
 
 export const mutations = {
-  updateCustomSessionKeys: async (_: any, { document: { document } }: CustomSessionArg, ctx: Context) => {
+  updateCustomSessionKeys: async (_: any, { sessionData: { sessionData } }: CustomSessionArg, ctx: Context) => {
     const {
       clients: { customSession },
       cookies,
@@ -29,7 +29,7 @@ export const mutations = {
 
     await customSession.updateSession(
       CUSTOM_SESSSION_KEY,
-      JSON.stringify(document),
+      JSON.stringify(sessionData),
       [],
       cookies.get(VTEX_SESSION)!,
       vtexIdCookies(ctx)
@@ -37,13 +37,13 @@ export const mutations = {
 
     ctx.response.set(
       'Set-Cookie',
-      serialize(CUSTOM_SESSSION_KEY, document, {
+      serialize(CUSTOM_SESSSION_KEY, sessionData, {
         encode: identity,
         maxAge: VTEXID_EXPIRES,
         path: '/',
       })
     )
 
-    return queries.getSession({}, {}, ctx)
+    return queries.getCustomSessionKeys({}, {}, ctx)
   },
 }

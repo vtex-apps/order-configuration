@@ -18,6 +18,7 @@ import { useSubmitReducer, SubmitContext } from '../logic/formState'
 export const FormHandler: FC<{
   schema: JSONSchemaType
   formProps: FormProps
+  email: string
 }> = props => {
   const [updateCustomSessionKeyMutation, { error }] = useMutation(updateCustomSessionKeys)
 
@@ -35,11 +36,11 @@ export const FormHandler: FC<{
       }
       dispatchSubmitAction({ type: 'SET_LOADING' })
 
-      console.log(JSON.stringify(data))
+      const sessionData = { ...data, email: props.email }
 
       await updateCustomSessionKeyMutation({
         variables: {
-          sessionData: { sessionData: JSON.stringify(data) },
+          sessionData: { sessionData: sessionData },
         },
       })
         .then((r) => {
@@ -78,8 +79,6 @@ export const FormHandler: FC<{
   if (submitState.success) {
     return <ExtensionPoint id="form-success" />
   }
-
-  console.log(props)
 
   return (
     <FormContext
