@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { contains, has, mergeRight, pathOr } from 'ramda'
+import { contains, has, values, mergeRight, omit, pathOr } from 'ramda'
 import { useQuery } from 'react-apollo'
 import { UITypes } from 'react-hook-form-jsonschema'
 import { ButtonWithIcon, IconEdit, Modal } from 'vtex.styleguide'
@@ -8,6 +8,7 @@ import { ObjectMapper } from './components/Object'
 import { FormHandler } from './components/FormHandler'
 import FormSubmit from './FormSubmit'
 import { CustomPriceSelectorProps } from './typings/FormProps'
+import { toSentenceCase } from './utils/string'
 
 import getCustomPriceSchema from './queries/getCustomPriceSchema.graphql'
 import getCustomSessionKeys from './queries/getCustomSessionKeys.graphql'
@@ -38,9 +39,24 @@ const CustomPriceSelector: StorefrontFunctionComponent<
     return <div>Loading...</div>
   }
 
-  console.log(pathOr('{}', ['getCustomSessionKeys', 'customSessionKeys'], customSessionData))
+  console.log(
+    pathOr(
+      '{}',
+      ['getCustomSessionKeys', 'customSessionKeys'],
+      customSessionData
+    )
+  )
 
-  const defaultValues = JSON.parse(pathOr('{}', ['getCustomSessionKeys', 'customSessionKeys'], customSessionData))
+  const defaultValues = omit(
+    ['email'],
+    JSON.parse(
+      pathOr(
+        '{}',
+        ['getCustomSessionKeys', 'customSessionKeys'],
+        customSessionData
+      )
+    )
+  )
 
   const { children, formFields } = props
   const email = pathOr('', ['profile', 'email'], profileData)
@@ -73,9 +89,7 @@ const CustomPriceSelector: StorefrontFunctionComponent<
         ),
       }
     }
-    if (
-      has('format', formField)
-    ) {
+    if (has('format', formField)) {
       fieldProps = {
         ...fieldProps,
         format: pathOr('', ['format'], formField),
@@ -139,10 +153,21 @@ const CustomPriceSelector: StorefrontFunctionComponent<
 
   return (
     <div className="tc">
-      <div>
-        <ButtonWithIcon icon={<IconEdit />} iconPosition="right" variation="secondary" onClick={() => setModalOpen(!isModalOpen)}>
-          {props.formTitle}
-        </ButtonWithIcon>
+      <div className="h-100">
+        <div className="h-100 flex items-center">
+          <span className="mr4">{props.formTitle}</span>
+          <span className="mr4 fw6">
+            {values(defaultValues)
+              .map(val => toSentenceCase(val, '_'))
+              .join(', ')}
+          </span>
+          <ButtonWithIcon
+            icon={<IconEdit />}
+            iconPosition="right"
+            variation="secondary"
+            onClick={() => setModalOpen(!isModalOpen)}
+          />
+        </div>
 
         <Modal
           centered
@@ -153,12 +178,25 @@ const CustomPriceSelector: StorefrontFunctionComponent<
           <div className="flex flex-column flex-row-ns">
             <div className="w-100 mv4 pv6-ns pl6-ns">
               {!React.Children.count(children) ? (
-                <FormHandler schema={customPriceSchema} formProps={props} email={email}>
-                  <ObjectMapper pointer="#" uiSchema={UISchema} formFields={formFields} defaultValues={defaultValues} />
+                <FormHandler
+                  schema={customPriceSchema}
+                  formProps={props}
+                  email={email}
+                >
+                  <ObjectMapper
+                    pointer="#"
+                    uiSchema={UISchema}
+                    formFields={formFields}
+                    defaultValues={defaultValues}
+                  />
                   <FormSubmit label="Submit" />
                 </FormHandler>
               ) : (
-                <FormHandler schema={customPriceSchema} formProps={props} email={email}>
+                <FormHandler
+                  schema={customPriceSchema}
+                  formProps={props}
+                  email={email}
+                >
                   {children}
                 </FormHandler>
               )}
@@ -168,6 +206,10 @@ const CustomPriceSelector: StorefrontFunctionComponent<
       </div>
     </div>
   )
+}
+
+CustomPriceSelector.defaultProps = {
+  formTitle: 'Order Configuration'
 }
 
 CustomPriceSelector.schema = {
