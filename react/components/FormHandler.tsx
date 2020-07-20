@@ -43,7 +43,7 @@ export const FormHandler: FC<{
           sessionData: { sessionData: sessionData },
         },
       })
-        .then((r) => {
+        .then(() => {
           dispatchSubmitAction({ type: 'SET_SUCCESS' })
           const { onSuccessfulSubmit } = props
           onSuccessfulSubmit()
