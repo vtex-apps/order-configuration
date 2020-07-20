@@ -39,14 +39,6 @@ const CustomPriceSelector: StorefrontFunctionComponent<
     return <div>Loading...</div>
   }
 
-  console.log(
-    pathOr(
-      '{}',
-      ['getCustomSessionKeys', 'customSessionKeys'],
-      customSessionData
-    )
-  )
-
   const defaultValues = omit(
     ['email'],
     JSON.parse(
@@ -148,9 +140,6 @@ const CustomPriceSelector: StorefrontFunctionComponent<
     })
   })
 
-  console.log(customPriceSchema)
-  console.log(UISchema)
-
   return (
     <div className="tc">
       <div className="h-100">
@@ -213,15 +202,78 @@ CustomPriceSelector.defaultProps = {
 }
 
 CustomPriceSelector.schema = {
-  title: 'editor.custom-price-selector.title',
-  description: 'editor.custom-price-selector.description',
+  title: 'admin/editor.custom-price-selector.title',
+  description: 'admin/editor.custom-price-selector.description',
   type: 'object',
   properties: {
     formTitle: {
-      title: 'editor.custom-price-selector.formTitle.title',
+      title: 'admin/editor.custom-price-selector.formTitle.title',
       type: 'string',
       default: 'Order Configuration',
     },
+    formFields: {
+      title: 'admin/editor.custom-price-selector.formFields.title',
+      type: 'array',
+      items: {
+        title: 'admin/editor.custom-price-selector.formFields.title',
+        type: 'object',
+        properties: {
+          name: {
+            title: 'admin/editor.custom-price-selector.formFields.name',
+            type: 'string'
+          },
+          type: {
+            title: 'admin/editor.custom-price-selector.formFields.type',
+            type: 'string',
+            enum: ['string', 'number'],
+            enumNames: ['String', 'Number'],
+            widget: {
+              "ui:widget": "radio"
+            },
+            default: 'string'
+          },
+          fieldType: {
+            title: 'admin/editor.custom-price-selector.formFields.fieldType',
+            type: 'string',
+            enum: ['text', 'textarea', 'select', 'radio', 'checkbox'],
+            enumNames: ['Text', 'Textarea', 'Select', 'Radio', 'Checkbox'],
+            default: 'text'
+          },
+          label: {
+            title: 'admin/editor.custom-price-selector.formFields.label',
+            type: 'string'
+          },
+          required: {
+            title: 'admin/editor.custom-price-selector.formFields.required',
+            type: 'boolean'
+          },
+          format: {
+            title: 'admin/editor.custom-price-selector.formFields.format',
+            type: 'string',
+            // required: false
+          },
+          options: {
+            title: 'admin/editor.custom-price-selector.formFields.options',
+            description: 'admin/editor.custom-price-selector.formFields.options.description',
+            type: 'array',
+            items: {
+              title: 'admin/editor.custom-price-selector.formFields.options',
+              type: 'object',
+              properties: {
+                label: {
+                  title: 'admin/editor.custom-price-selector.formFields.options.label',
+                  type: 'string'
+                },
+                value: {
+                  title: 'admin/editor.custom-price-selector.formFields.options.value',
+                  type: 'string'
+                },
+              }
+            }
+          }
+        }
+      }
+    }
   },
 }
 

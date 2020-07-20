@@ -32,6 +32,6 @@ export type SelectField = FormField & {
 
 export type RadioGroupField = SelectField
 
-export type CheckboxField = FormField & {
+export type CheckboxField = RadioGroupField & {
   defaultValues?: string[]
 }
