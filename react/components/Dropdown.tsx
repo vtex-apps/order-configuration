@@ -43,7 +43,6 @@ export const Dropdown: FC<{
   const items = selectObject.getItems()
   const keyValueOptions = pathOr([], ['options'], find(propEq('name', selectObject.name), formFields))
   const defaultValue = path([selectObject.name], defaultValues)
-  console.log(defaultValue)
   const options = useMemo(() => {
     return items.map(value => {
       return { value, label: pathOr(value, ['label'], find(propEq('value', value), keyValueOptions)) }

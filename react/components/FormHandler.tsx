@@ -44,14 +44,12 @@ export const FormHandler: FC<{
         },
       })
         .then((r) => {
-          console.log(r)
           dispatchSubmitAction({ type: 'SET_SUCCESS' })
           const { onSuccessfulSubmit } = props
           onSuccessfulSubmit()
         })
         .catch(e => {
           setLastErrorFieldValues(data)
-          console.log(e)
 
           if (e.graphQLErrors) {
             for (const graphqlError of e.graphQLErrors as GraphQLError[]) {
