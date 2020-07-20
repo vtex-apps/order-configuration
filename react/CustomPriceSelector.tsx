@@ -10,7 +10,7 @@ import { ObjectMapper } from './components/Object'
 import { FormHandler } from './components/FormHandler'
 import FormSubmit from './FormSubmit'
 import { CustomPriceSelectorProps } from './typings/FormProps'
-import { toSentenceCase } from './utils/string'
+// import { toSentenceCase } from './utils/string'
 import { TOAST_DURATION_MS } from './utils/toast'
 
 import getCustomPriceSchema from './queries/getCustomPriceSchema.graphql'
@@ -175,7 +175,7 @@ const CustomPriceSelector: StorefrontFunctionComponent<
                 </span>
                 <span className={`mr4 fw6 ${handles.titleValues}`}>
                   {values(defaultValues)
-                    .map(val => toSentenceCase(val, '_'))
+                    // .map(val => toSentenceCase(val, '_'))
                     .join(', ')}
                 </span>
                 <ButtonWithIcon
