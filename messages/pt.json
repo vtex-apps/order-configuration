@@ -15,6 +15,7 @@
   "store/form.submit.error.serverError": "Erro interno do servidor! Por favor, tente novamente mais tarde!",
   "store/form.schema.loading": "Carregando o formulário...",
   "store/form.schema.error": "Erro carregando o formulário, tente de novo mais tarde!",
+  "store/form.submit.success": "Preços atualizados com base na nova configuração de pedido",
   "admin/editor.custom-price-selector.title": "Configuração da ordem",
   "admin/editor.custom-price-selector.description": "Configuração de pedidos para usuários B2B",
   "admin/editor.custom-price-selector.formTitle.title": "Título do formulário",

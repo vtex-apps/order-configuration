@@ -16,6 +16,9 @@ declare module 'vtex.styleguide' {
   export const Modal: ComponentType<InputProps>
   export const RadioGroup: ComponentType<InputProps>
   export const Textarea: ComponentType<InputProps>
+  export const ToastConsumer
+  export const ToastProvider
+  export const withToast
 
   interface InputProps {
     [key: string]: any

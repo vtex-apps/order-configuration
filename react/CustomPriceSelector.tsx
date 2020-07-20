@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { contains, has, values, mergeRight, omit, pathOr } from 'ramda'
 import { useQuery } from 'react-apollo'
 import { UITypes } from 'react-hook-form-jsonschema'
@@ -9,10 +10,14 @@ import { FormHandler } from './components/FormHandler'
 import FormSubmit from './FormSubmit'
 import { CustomPriceSelectorProps } from './typings/FormProps'
 import { toSentenceCase } from './utils/string'
+import { TOAST_DURATION_MS } from './utils/toast'
 
 import getCustomPriceSchema from './queries/getCustomPriceSchema.graphql'
 import getCustomSessionKeys from './queries/getCustomSessionKeys.graphql'
 import getProfile from './queries/getProfile.graphql'
+
+import { ToastConsumer } from 'vtex.styleguide'
+import { ToastRenderProps } from './typings/global'
 
 const CustomPriceSelector: StorefrontFunctionComponent<
   CustomPriceSelectorProps
@@ -141,64 +146,81 @@ const CustomPriceSelector: StorefrontFunctionComponent<
   })
 
   return (
-    <div className="tc">
-      <div className="h-100">
-        <div className="h-100 flex items-center">
-          <span className="mr4">{props.formTitle}</span>
-          <span className="mr4 fw6">
-            {values(defaultValues)
-              .map(val => toSentenceCase(val, '_'))
-              .join(', ')}
-          </span>
-          <ButtonWithIcon
-            icon={<IconEdit />}
-            iconPosition="right"
-            variation="secondary"
-            onClick={() => setModalOpen(!isModalOpen)}
-          />
-        </div>
+    <ToastConsumer>
+      {({ showToast }: ToastRenderProps) => {
+        const onSuccessfulSubmit = () => {
+          setModalOpen(!isModalOpen)
+          window.location.reload(true);
+          showToast({
+            message: <FormattedMessage id="store/form.submit.success" />,
+            duration: TOAST_DURATION_MS,
+          })
+        }
 
-        <Modal
-          centered
-          isOpen={isModalOpen}
-          onClose={() => setModalOpen(!isModalOpen)}
-          title={pathOr('Order Configuration', ['formTitle'], props)}
-        >
-          <div className="flex flex-column flex-row-ns">
-            <div className="w-100 mv4 pv6-ns pl6-ns">
-              {!React.Children.count(children) ? (
-                <FormHandler
-                  schema={customPriceSchema}
-                  formProps={props}
-                  email={email}
-                >
-                  <ObjectMapper
-                    pointer="#"
-                    uiSchema={UISchema}
-                    formFields={formFields}
-                    defaultValues={defaultValues}
-                  />
-                  <FormSubmit label="Submit" />
-                </FormHandler>
-              ) : (
-                <FormHandler
-                  schema={customPriceSchema}
-                  formProps={props}
-                  email={email}
-                >
-                  {children}
-                </FormHandler>
-              )}
+        return (
+          <div className="tc">
+          <div className="h-100">
+            <div className="h-100 flex items-center">
+              <span className="mr4">{props.formTitle}</span>
+              <span className="mr4 fw6">
+                {values(defaultValues)
+                  .map(val => toSentenceCase(val, '_'))
+                  .join(', ')}
+              </span>
+              <ButtonWithIcon
+                icon={<IconEdit />}
+                iconPosition="right"
+                variation="secondary"
+                onClick={() => setModalOpen(!isModalOpen)}
+              />
             </div>
+
+            <Modal
+              centered
+              isOpen={isModalOpen}
+              onClose={() => setModalOpen(!isModalOpen)}
+              title={pathOr('Order Configuration', ['formTitle'], props)}
+            >
+              <div className="flex flex-column flex-row-ns">
+                <div className="w-100 mv4 pv6-ns pl6-ns">
+                  {!React.Children.count(children) ? (
+                    <FormHandler
+                      schema={customPriceSchema}
+                      formProps={props}
+                      email={email}
+                      onSuccessfulSubmit={onSuccessfulSubmit}
+                    >
+                      <ObjectMapper
+                        pointer="#"
+                        uiSchema={UISchema}
+                        formFields={formFields}
+                        defaultValues={defaultValues}
+                      />
+                      <FormSubmit label="Submit" />
+                    </FormHandler>
+                  ) : (
+                    <FormHandler
+                      schema={customPriceSchema}
+                      formProps={props}
+                      email={email}
+                      onSuccessfulSubmit={onSuccessfulSubmit}
+                    >
+                      {children}
+                    </FormHandler>
+                  )}
+                </div>
+              </div>
+            </Modal>
           </div>
-        </Modal>
-      </div>
-    </div>
+        </div>
+        )
+      }}
+    </ToastConsumer>
   )
 }
 
 CustomPriceSelector.defaultProps = {
-  formTitle: 'Order Configuration'
+  formTitle: 'Order Configuration',
 }
 
 CustomPriceSelector.schema = {
@@ -220,7 +242,7 @@ CustomPriceSelector.schema = {
         properties: {
           name: {
             title: 'admin/editor.custom-price-selector.formFields.name',
-            type: 'string'
+            type: 'string',
           },
           type: {
             title: 'admin/editor.custom-price-selector.formFields.type',
@@ -228,24 +250,24 @@ CustomPriceSelector.schema = {
             enum: ['string', 'number'],
             enumNames: ['String', 'Number'],
             widget: {
-              "ui:widget": "radio"
+              'ui:widget': 'radio',
             },
-            default: 'string'
+            default: 'string',
           },
           fieldType: {
             title: 'admin/editor.custom-price-selector.formFields.fieldType',
             type: 'string',
             enum: ['text', 'textarea', 'select', 'radio', 'checkbox'],
             enumNames: ['Text', 'Textarea', 'Select', 'Radio', 'Checkbox'],
-            default: 'text'
+            default: 'text',
           },
           label: {
             title: 'admin/editor.custom-price-selector.formFields.label',
-            type: 'string'
+            type: 'string',
           },
           required: {
             title: 'admin/editor.custom-price-selector.formFields.required',
-            type: 'boolean'
+            type: 'boolean',
           },
           format: {
             title: 'admin/editor.custom-price-selector.formFields.format',
@@ -254,26 +276,29 @@ CustomPriceSelector.schema = {
           },
           options: {
             title: 'admin/editor.custom-price-selector.formFields.options',
-            description: 'admin/editor.custom-price-selector.formFields.options.description',
+            description:
+              'admin/editor.custom-price-selector.formFields.options.description',
             type: 'array',
             items: {
               title: 'admin/editor.custom-price-selector.formFields.options',
               type: 'object',
               properties: {
                 label: {
-                  title: 'admin/editor.custom-price-selector.formFields.options.label',
-                  type: 'string'
+                  title:
+                    'admin/editor.custom-price-selector.formFields.options.label',
+                  type: 'string',
                 },
                 value: {
-                  title: 'admin/editor.custom-price-selector.formFields.options.value',
-                  type: 'string'
+                  title:
+                    'admin/editor.custom-price-selector.formFields.options.value',
+                  type: 'string',
                 },
-              }
-            }
-          }
-        }
-      }
-    }
+              },
+            },
+          },
+        },
+      },
+    },
   },
 }
 
