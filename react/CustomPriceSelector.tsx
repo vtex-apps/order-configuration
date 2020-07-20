@@ -46,7 +46,11 @@ const CustomPriceSelector: StorefrontFunctionComponent<
   const handles = useCssHandles(CSS_HANDLES)
 
   if (profileLoading || customSessionLoading || customPriceSchemaLoading) {
-    return <div className={`h-100 flex items-center ${handles.loader}`}>Loading...</div>
+    return (
+      <div className={`h-100 flex items-center ${handles.loader}`}>
+        Loading...
+      </div>
+    )
   }
 
   const defaultValues = omit(
@@ -60,7 +64,7 @@ const CustomPriceSelector: StorefrontFunctionComponent<
     )
   )
 
-  const { children, formFields } = props
+  const { formFields } = props
   const email = pathOr('', ['profile', 'email'], profileData)
   let customPriceSchema: {
     type: string
@@ -166,7 +170,9 @@ const CustomPriceSelector: StorefrontFunctionComponent<
           <div className="tc">
             <div className="h-100">
               <div className="h-100 flex items-center">
-                <span className={`mr4 ${handles.title}`}>{props.formTitle}</span>
+                <span className={`mr4 ${handles.title}`}>
+                  {props.formTitle}
+                </span>
                 <span className={`mr4 fw6 ${handles.titleValues}`}>
                   {values(defaultValues)
                     .map(val => toSentenceCase(val, '_'))
@@ -188,31 +194,20 @@ const CustomPriceSelector: StorefrontFunctionComponent<
               >
                 <div className="flex flex-column flex-row-ns">
                   <div className="w-100 mv4 pv6-ns pl6-ns">
-                    {!React.Children.count(children) ? (
-                      <FormHandler
-                        schema={customPriceSchema}
-                        formProps={props}
-                        email={email}
-                        onSuccessfulSubmit={onSuccessfulSubmit}
-                      >
-                        <ObjectMapper
-                          pointer="#"
-                          uiSchema={UISchema}
-                          formFields={formFields}
-                          defaultValues={defaultValues}
-                        />
-                        <FormSubmit label="Submit" />
-                      </FormHandler>
-                    ) : (
-                      <FormHandler
-                        schema={customPriceSchema}
-                        formProps={props}
-                        email={email}
-                        onSuccessfulSubmit={onSuccessfulSubmit}
-                      >
-                        {children}
-                      </FormHandler>
-                    )}
+                    <FormHandler
+                      schema={customPriceSchema}
+                      formProps={props}
+                      email={email}
+                      onSuccessfulSubmit={onSuccessfulSubmit}
+                    >
+                      <ObjectMapper
+                        pointer="#"
+                        uiSchema={UISchema}
+                        formFields={formFields}
+                        defaultValues={defaultValues}
+                      />
+                      <FormSubmit label="Submit" />
+                    </FormHandler>
                   </div>
                 </div>
               </Modal>
