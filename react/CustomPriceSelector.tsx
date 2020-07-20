@@ -4,6 +4,7 @@ import { contains, has, values, mergeRight, omit, pathOr } from 'ramda'
 import { useQuery } from 'react-apollo'
 import { UITypes } from 'react-hook-form-jsonschema'
 import { ButtonWithIcon, IconEdit, Modal } from 'vtex.styleguide'
+import { useCssHandles } from 'vtex.css-handles'
 
 import { ObjectMapper } from './components/Object'
 import { FormHandler } from './components/FormHandler'
@@ -18,6 +19,8 @@ import getProfile from './queries/getProfile.graphql'
 
 import { ToastConsumer } from 'vtex.styleguide'
 import { ToastRenderProps } from './typings/global'
+
+const CSS_HANDLES = ['loader', 'title', 'titleValues'] as const
 
 const CustomPriceSelector: StorefrontFunctionComponent<
   CustomPriceSelectorProps
@@ -40,8 +43,10 @@ const CustomPriceSelector: StorefrontFunctionComponent<
 
   const [isModalOpen, setModalOpen] = useState(false)
 
+  const handles = useCssHandles(CSS_HANDLES)
+
   if (profileLoading || customSessionLoading || customPriceSchemaLoading) {
-    return <div>Loading...</div>
+    return <div className={`h-100 flex items-center ${handles.loader}`}>Loading...</div>
   }
 
   const defaultValues = omit(
@@ -159,60 +164,60 @@ const CustomPriceSelector: StorefrontFunctionComponent<
 
         return (
           <div className="tc">
-          <div className="h-100">
-            <div className="h-100 flex items-center">
-              <span className="mr4">{props.formTitle}</span>
-              <span className="mr4 fw6">
-                {values(defaultValues)
-                  .map(val => toSentenceCase(val, '_'))
-                  .join(', ')}
-              </span>
-              <ButtonWithIcon
-                icon={<IconEdit />}
-                iconPosition="right"
-                variation="secondary"
-                onClick={() => setModalOpen(!isModalOpen)}
-              />
-            </div>
-
-            <Modal
-              centered
-              isOpen={isModalOpen}
-              onClose={() => setModalOpen(!isModalOpen)}
-              title={pathOr('Order Configuration', ['formTitle'], props)}
-            >
-              <div className="flex flex-column flex-row-ns">
-                <div className="w-100 mv4 pv6-ns pl6-ns">
-                  {!React.Children.count(children) ? (
-                    <FormHandler
-                      schema={customPriceSchema}
-                      formProps={props}
-                      email={email}
-                      onSuccessfulSubmit={onSuccessfulSubmit}
-                    >
-                      <ObjectMapper
-                        pointer="#"
-                        uiSchema={UISchema}
-                        formFields={formFields}
-                        defaultValues={defaultValues}
-                      />
-                      <FormSubmit label="Submit" />
-                    </FormHandler>
-                  ) : (
-                    <FormHandler
-                      schema={customPriceSchema}
-                      formProps={props}
-                      email={email}
-                      onSuccessfulSubmit={onSuccessfulSubmit}
-                    >
-                      {children}
-                    </FormHandler>
-                  )}
-                </div>
+            <div className="h-100">
+              <div className="h-100 flex items-center">
+                <span className={`mr4 ${handles.title}`}>{props.formTitle}</span>
+                <span className={`mr4 fw6 ${handles.titleValues}`}>
+                  {values(defaultValues)
+                    .map(val => toSentenceCase(val, '_'))
+                    .join(', ')}
+                </span>
+                <ButtonWithIcon
+                  icon={<IconEdit />}
+                  iconPosition="right"
+                  variation="secondary"
+                  onClick={() => setModalOpen(!isModalOpen)}
+                />
               </div>
-            </Modal>
+
+              <Modal
+                centered
+                isOpen={isModalOpen}
+                onClose={() => setModalOpen(!isModalOpen)}
+                title={pathOr('Order Configuration', ['formTitle'], props)}
+              >
+                <div className="flex flex-column flex-row-ns">
+                  <div className="w-100 mv4 pv6-ns pl6-ns">
+                    {!React.Children.count(children) ? (
+                      <FormHandler
+                        schema={customPriceSchema}
+                        formProps={props}
+                        email={email}
+                        onSuccessfulSubmit={onSuccessfulSubmit}
+                      >
+                        <ObjectMapper
+                          pointer="#"
+                          uiSchema={UISchema}
+                          formFields={formFields}
+                          defaultValues={defaultValues}
+                        />
+                        <FormSubmit label="Submit" />
+                      </FormHandler>
+                    ) : (
+                      <FormHandler
+                        schema={customPriceSchema}
+                        formProps={props}
+                        email={email}
+                        onSuccessfulSubmit={onSuccessfulSubmit}
+                      >
+                        {children}
+                      </FormHandler>
+                    )}
+                  </div>
+                </div>
+              </Modal>
+            </div>
           </div>
-        </div>
         )
       }}
     </ToastConsumer>
