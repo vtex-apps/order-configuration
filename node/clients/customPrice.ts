@@ -9,7 +9,7 @@ import { statusToError } from '../utils'
 
 export class CustomPrice extends ExternalClient {
   public constructor(ctx: IOContext, options?: InstanceOptions) {
-    super(`https://sahan--${ctx.account}.myvtex.com/_v/custom-prices`, ctx, {
+    super(`https://${ctx.account}.myvtex.com/_v/custom-prices`, ctx, {
       ...options,
       headers: {
         ...(options && options.headers),
