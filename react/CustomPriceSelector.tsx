@@ -150,7 +150,7 @@ const CustomPriceSelector: StorefrontFunctionComponent<
       {({ showToast }: ToastRenderProps) => {
         const onSuccessfulSubmit = () => {
           setModalOpen(!isModalOpen)
-          window.location.reload(true);
+          window.location.reload()
           showToast({
             message: <FormattedMessage id="store/form.submit.success" />,
             duration: TOAST_DURATION_MS,
