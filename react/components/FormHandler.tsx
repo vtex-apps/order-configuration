@@ -1,31 +1,34 @@
-import React, { FC, useMemo, useState, useCallback } from 'react'
+import React, { FC, useCallback } from 'react'
+import { compose } from 'ramda'
+import { withSession } from 'vtex.render-runtime'
 import {
   FormContext,
   JSONSchemaType,
-  JSONSubSchemaInfo,
-  getDataFromPointer,
+  // JSONSubSchemaInfo,
+  // getDataFromPointer,
   OnSubmitParameters,
 } from 'react-hook-form-jsonschema'
-import { useMutation } from 'react-apollo'
+import { graphql } from 'react-apollo'
 import { GraphQLError } from 'graphql'
 
 import updateCustomSessionKeys from '../mutations/updateCustomSessionKeys.graphql'
 import { FormProps } from '../typings/FormProps'
-import { parseMasterDataError } from '../logic/masterDataError'
+// import { parseMasterDataError } from '../logic/masterDataError'
 import { useSubmitReducer, SubmitContext } from '../logic/formState'
 
-export const FormHandler: FC<{
+const FormHandler: FC<{
   schema: JSONSchemaType
   formProps: FormProps
   email: string | null
   onSuccessfulSubmit: () => void
+  updateCustomSessionKeyMutation: (s: {}) => Promise<void>
 }> = props => {
-  const [updateCustomSessionKeyMutation, { error }] = useMutation(updateCustomSessionKeys)
+  const { updateCustomSessionKeyMutation } = props
 
-  const masterDataErrors = useMemo(() => parseMasterDataError(error), [error])
-  const [lastErrorFieldValues, setLastErrorFieldValues] = useState<
-    Record<string, string>
-  >({})
+  // const masterDataErrors = useMemo(() => parseMasterDataError(error), [error])
+  // const [lastErrorFieldValues, setLastErrorFieldValues] = useState<
+  //   Record<string, string>
+  // >({})
 
   const [submitState, dispatchSubmitAction] = useSubmitReducer()
 
@@ -43,13 +46,14 @@ export const FormHandler: FC<{
           sessionData: { sessionData: sessionData },
         },
       })
-        .then(() => {
+        .then(data => {
+          console.log(data)
           dispatchSubmitAction({ type: 'SET_SUCCESS' })
           const { onSuccessfulSubmit } = props
           onSuccessfulSubmit()
         })
         .catch(e => {
-          setLastErrorFieldValues(data)
+          // setLastErrorFieldValues(data)
 
           if (e.graphQLErrors) {
             for (const graphqlError of e.graphQLErrors as GraphQLError[]) {
@@ -80,21 +84,21 @@ export const FormHandler: FC<{
     <FormContext
       schema={props.schema}
       onSubmit={onSubmit}
-      customValidators={{
-        graphqlError: (value, context: JSONSubSchemaInfo) => {
-          const lastValue = getDataFromPointer(
-            context.pointer,
-            lastErrorFieldValues
-          )
-          if (
-            masterDataErrors[context.pointer] &&
-            ((!lastValue && !value) || lastValue === value)
-          ) {
-            return masterDataErrors[context.pointer][0]
-          }
-          return true
-        },
-      }}
+      // customValidators={{
+      //   graphqlError: (value, context: JSONSubSchemaInfo) => {
+      //     const lastValue = getDataFromPointer(
+      //       context.pointer,
+      //       lastErrorFieldValues
+      //     )
+      //     if (
+      //       masterDataErrors[context.pointer] &&
+      //       ((!lastValue && !value) || lastValue === value)
+      //     ) {
+      //       return masterDataErrors[context.pointer][0]
+      //     }
+      //     return true
+      //   },
+      // }}
     >
       <SubmitContext.Provider value={submitState}>
         {props.children}
@@ -102,3 +106,20 @@ export const FormHandler: FC<{
     </FormContext>
   )
 }
+
+// const options = {
+//   name: 'session',
+//   options: () => ({
+//     ssr: false,
+//   }),
+// }
+
+const EnhancedFormHandler = withSession({ loading: React.Fragment })(
+  compose(
+    // graphql(sessionQuery, options),
+    graphql(updateCustomSessionKeys, { name: 'updateCustomSessionKeyMutation' }),
+    // graphql(impersonateMutation, { name: 'impersonate' }),
+  )(FormHandler as any)
+)
+
+export default EnhancedFormHandler

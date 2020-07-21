@@ -1,8 +1,4 @@
-import {
-  JanusClient,
-  InstanceOptions,
-  IOContext
-} from '@vtex/api'
+import { JanusClient } from '@vtex/api'
 import parseCookie from 'cookie'
 import { prop } from 'ramda'
 
@@ -13,24 +9,11 @@ interface VtexIdCookies {
 
 const SESSION_COOKIE = 'vtex_session'
 
-const FIVE_SECONDS_MS = 5 * 1000
-
 const routes = {
   base: '/api/sessions',
 }
 
 export default class Session extends JanusClient {
-
-  public constructor(context: IOContext, options?: InstanceOptions) {
-    super(context, {
-      ...options,
-      headers: {
-        ...(options && options.headers),
-        VtexIdClientAutCookie: context.authToken,
-      },
-      timeout: FIVE_SECONDS_MS,
-    })
-  }
 
   public getSession = async (token: string, items: string[]) => {
     const {
@@ -76,7 +59,7 @@ export default class Session extends JanusClient {
         'Content-Type': 'application/json',
         'Cookie': cookies,
       },
-      metric: 'session-update',
+      metric: 'customSessionKeyUpdate',
       params: {
         items: items.join(','),
       },
