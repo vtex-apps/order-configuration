@@ -17,7 +17,7 @@ import { useSubmitReducer, SubmitContext } from '../logic/formState'
 export const FormHandler: FC<{
   schema: JSONSchemaType
   formProps: FormProps
-  email: string
+  email: string | null
   onSuccessfulSubmit: () => void
 }> = props => {
   const [updateCustomSessionKeyMutation, { error }] = useMutation(updateCustomSessionKeys)

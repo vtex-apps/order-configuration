@@ -65,7 +65,7 @@ const CustomPriceSelector: StorefrontFunctionComponent<
   )
 
   const { formFields } = props
-  const email = pathOr('', ['profile', 'email'], profileData)
+  const email = pathOr(null, ['profile', 'email'], profileData)
   let customPriceSchema: {
     type: string
     properties: any
