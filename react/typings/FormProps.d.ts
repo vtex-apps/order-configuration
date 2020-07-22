@@ -5,6 +5,19 @@ export type FormProps = {
 export type CustomPriceSelectorProps = {
   formTitle: string
   formFields: FormField[]
+  session: Session
+}
+
+export interface Session {
+  loading: boolean
+  refetch: () => void
+  getSession: {
+    public?: {
+      [key: string]: {
+        value: string
+      }
+    }
+  }
 }
 
 export type FormField =
