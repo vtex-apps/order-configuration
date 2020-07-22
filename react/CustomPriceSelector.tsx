@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { withSession } from 'vtex.render-runtime'
-import { compose, contains, has, values, mergeRight, omit, pathOr } from 'ramda'
-import { graphql, useQuery } from 'react-apollo'
+import { contains, has, values, mergeRight, omit, pathOr } from 'ramda'
+import { useQuery } from 'react-apollo'
 import { UITypes } from 'react-hook-form-jsonschema'
 import { ButtonWithIcon, IconEdit, Modal } from 'vtex.styleguide'
 import { useCssHandles } from 'vtex.css-handles'
 
 import { ObjectMapper } from './components/Object'
-import FormHandler from './components/FormHandler'
+import { FormHandler } from './components/FormHandler'
 import FormSubmit from './FormSubmit'
 import { CustomPriceSelectorProps } from './typings/FormProps'
 // import { toSentenceCase } from './utils/string'
@@ -26,7 +25,12 @@ const CSS_HANDLES = ['loader', 'title', 'titleValues'] as const
 const CustomPriceSelector: StorefrontFunctionComponent<
   CustomPriceSelectorProps
 > = props => {
-  const { session: customSessionData } = props
+  const { data: customSessionData, loading: customSessionLoading } = useQuery(
+    getCustomSessionKeys,
+    {
+      ssr: false,
+    }
+  )
 
   const {
     // data: customPriceSchemaData,
@@ -41,7 +45,7 @@ const CustomPriceSelector: StorefrontFunctionComponent<
 
   const handles = useCssHandles(CSS_HANDLES)
 
-  if (profileLoading || pathOr(true, ['loading'], customSessionData) || customPriceSchemaLoading) {
+  if (profileLoading || customSessionLoading || customPriceSchemaLoading) {
     return (
       <div className={`h-100 flex items-center ${handles.loader}`}>
         Loading...
@@ -298,17 +302,4 @@ CustomPriceSelector.schema = {
   },
 }
 
-const options = {
-  name: 'session',
-  options: () => ({
-    ssr: false,
-  }),
-}
-
-const EnhancedCustomPriceSelector = withSession({ renderWhileLoading: false, loading: React.Fragment })(
-  compose(
-    graphql(getCustomSessionKeys, options),
-  )(CustomPriceSelector as any)
-)
-
-export default EnhancedCustomPriceSelector
+export default CustomPriceSelector

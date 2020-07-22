@@ -1,6 +1,6 @@
 /* Typings for `render-runtime` */
 declare module 'vtex.render-runtime' {
-  import { Component, ReactElement, ReactType } from 'react'
+  import { Component, ComponentType, ReactElement, ReactType } from 'react'
 
   export interface NavigationOptions {
     page: string
@@ -33,9 +33,6 @@ declare module 'vtex.render-runtime' {
   export const RenderContextConsumer: ReactElement
   export const canUseDOM: boolean
   export const withRuntimeContext: <TOriginalProps extends {}>(
-    Component: ComponentType<TOriginalProps & RenderContextProps>
-  ) => ComponentType<TOriginalProps>
-  export const withSession: <TOriginalProps extends {}>(
     Component: ComponentType<TOriginalProps & RenderContextProps>
   ) => ComponentType<TOriginalProps>
 }
