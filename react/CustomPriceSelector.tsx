@@ -155,7 +155,6 @@ const CustomPriceSelector: StorefrontFunctionComponent<
       {({ showToast }: ToastRenderProps) => {
         const onSuccessfulSubmit = () => {
           setModalOpen(!isModalOpen)
-          customSessionData.refetch()
           window.location.reload()
           showToast({
             message: <FormattedMessage id="store/form.submit.success" />,
@@ -306,7 +305,7 @@ const options = {
   }),
 }
 
-const EnhancedCustomPriceSelector = withSession({ loading: React.Fragment })(
+const EnhancedCustomPriceSelector = withSession({ renderWhileLoading: false, loading: React.Fragment })(
   compose(
     graphql(getCustomSessionKeys, options),
   )(CustomPriceSelector as any)

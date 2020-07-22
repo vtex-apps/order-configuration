@@ -65,7 +65,7 @@ export default class Session extends JanusClient {
       },
     }
 
-    return this.http.post(routes.base, data, config)
+    return this.http.postRaw(routes.base, data, config)
   }
 
 }
