@@ -1,8 +1,4 @@
-import {
-  JanusClient,
-  // InstanceOptions,
-  // IOContext
-} from '@vtex/api'
+import { JanusClient } from '@vtex/api'
 import parseCookie from 'cookie'
 import { prop } from 'ramda'
 
@@ -63,13 +59,13 @@ export default class Session extends JanusClient {
         'Content-Type': 'application/json',
         'Cookie': cookies,
       },
-      metric: 'session-update',
+      metric: 'customSessionKeyUpdate',
       params: {
         items: items.join(','),
       },
     }
 
-    return this.http.post(routes.base, data, config)
+    return this.http.postRaw(routes.base, data, config)
   }
 
 }

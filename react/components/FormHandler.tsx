@@ -7,7 +7,6 @@ import {
   OnSubmitParameters,
 } from 'react-hook-form-jsonschema'
 import { useMutation } from 'react-apollo'
-import { ExtensionPoint } from 'vtex.render-runtime'
 import { GraphQLError } from 'graphql'
 
 import updateCustomSessionKeys from '../mutations/updateCustomSessionKeys.graphql'
@@ -18,6 +17,8 @@ import { useSubmitReducer, SubmitContext } from '../logic/formState'
 export const FormHandler: FC<{
   schema: JSONSchemaType
   formProps: FormProps
+  email: string | null
+  onSuccessfulSubmit: () => void
 }> = props => {
   const [updateCustomSessionKeyMutation, { error }] = useMutation(updateCustomSessionKeys)
 
@@ -35,20 +36,20 @@ export const FormHandler: FC<{
       }
       dispatchSubmitAction({ type: 'SET_LOADING' })
 
-      console.log(JSON.stringify(data))
+      const sessionData = { ...data, email: props.email }
 
       await updateCustomSessionKeyMutation({
         variables: {
-          sessionData: { sessionData: JSON.stringify(data) },
+          sessionData: { sessionData: sessionData },
         },
       })
-        .then((r) => {
-          console.log(r)
+        .then(() => {
           dispatchSubmitAction({ type: 'SET_SUCCESS' })
+          const { onSuccessfulSubmit } = props
+          onSuccessfulSubmit()
         })
         .catch(e => {
           setLastErrorFieldValues(data)
-          console.log(e)
 
           if (e.graphQLErrors) {
             for (const graphqlError of e.graphQLErrors as GraphQLError[]) {
@@ -74,12 +75,6 @@ export const FormHandler: FC<{
       dispatchSubmitAction,
     ]
   )
-
-  if (submitState.success) {
-    return <ExtensionPoint id="form-success" />
-  }
-
-  console.log(props)
 
   return (
     <FormContext

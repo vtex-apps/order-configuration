@@ -1,4 +1,5 @@
 import { UISchemaType } from 'react-hook-form-jsonschema'
+import { FormField } from './FormProps'
 
 export interface BaseInputProps {
   pointer: string
@@ -7,6 +8,10 @@ export interface BaseInputProps {
 
 export interface FormFieldGroupProps extends Omit<BaseInputProps, 'label'> {
   uiSchema?: UISchemaType
+  formFields: FormField[]
+  defaultValues: {
+    [key: string]: string
+  }
 }
 
 export enum InputTypes {

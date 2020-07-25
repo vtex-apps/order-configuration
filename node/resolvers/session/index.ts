@@ -1,49 +1,39 @@
-import { serialize } from 'cookie'
-import { identity } from 'ramda'
 import { vtexIdCookies } from '../../utils/vtexId'
-import { VTEX_SESSION, getSession } from './service'
+import { VTEX_SESSION, getCustomSessionKeys } from './service'
 
 interface CustomSessionArg {
-  document: { document: any }
+  sessionData: { sessionData: any }
 }
 
 const CUSTOM_SESSSION_KEY = 'customSessionKeys'
-const VTEXID_EXPIRES = 86400
 
 export const queries = {
   /**
    * Get user session
    * @return Session
    */
-  getSession: async (_: any, __: any, ctx: Context) => {
-    return getSession(ctx)
+  getCustomSessionKeys: async (_: any, __: any, ctx: Context) => {
+    return getCustomSessionKeys(ctx)
   },
 }
 
 export const mutations = {
-  updateCustomSessionKeys: async (_: any, { document: { document } }: CustomSessionArg, ctx: Context) => {
+  updateCustomSessionKeys: async (_: any, { sessionData: { sessionData } }: CustomSessionArg, ctx: Context) => {
     const {
       clients: { customSession },
       cookies,
     } = ctx
 
-    await customSession.updateSession(
+    const response = await customSession.updateSession(
       CUSTOM_SESSSION_KEY,
-      JSON.stringify(document),
+      JSON.stringify(sessionData),
       [],
       cookies.get(VTEX_SESSION)!,
       vtexIdCookies(ctx)
     )
 
-    ctx.response.set(
-      'Set-Cookie',
-      serialize(CUSTOM_SESSSION_KEY, document, {
-        encode: identity,
-        maxAge: VTEXID_EXPIRES,
-        path: '/',
-      })
-    )
+    ctx.response.set('Set-Cookie', response.headers['set-cookie'])
 
-    return queries.getSession({}, {}, ctx)
+    return queries.getCustomSessionKeys({}, {}, ctx)
   },
 }

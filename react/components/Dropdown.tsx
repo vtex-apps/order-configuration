@@ -1,4 +1,5 @@
 import React, { FC, useMemo } from 'react'
+import { find, propEq, path, pathOr } from 'ramda'
 import { Dropdown as StyleguideDropdown } from 'vtex.styleguide'
 import {
   Controller,
@@ -8,26 +9,43 @@ import {
 
 import { useFormattedError } from '../hooks/useErrorMessage'
 import { BaseInputProps } from '../typings/InputProps'
+import { FormField } from '../typings/FormProps'
 
-export const DropdownInput: FC<BaseInputProps> = props => {
+type DropdownFields = {
+  formFields: FormField[]
+}
+
+type DefaultValues = {
+  defaultValues: {
+    [key: string]: string
+  }
+}
+
+export const DropdownInput: FC<BaseInputProps & DropdownFields & DefaultValues> = props => {
   const selectObject = useSelect(props.pointer)
-  return <Dropdown selectObject={selectObject} label={props.label} />
+  return <Dropdown selectObject={selectObject} label={props.label} formFields={props.formFields} defaultValues={props.defaultValues} />
 }
 
 export const Dropdown: FC<{
   selectObject: UseSelectReturnType
   label?: string
+  formFields: FormField[]
+  defaultValues: {
+    [key: string]: string
+  }
 }> = props => {
-  const { selectObject } = props
+  const { selectObject, formFields, defaultValues } = props
   const error = selectObject.getError()
 
   const subSchema = selectObject.getObject()
   const label = props.label ?? subSchema.title ?? selectObject.name
 
   const items = selectObject.getItems()
+  const keyValueOptions = pathOr([], ['options'], find(propEq('name', selectObject.name), formFields))
+  const defaultValue = path([selectObject.name], defaultValues)
   const options = useMemo(() => {
     return items.map(value => {
-      return { value, label: value }
+      return { value, label: pathOr(value, ['label'], find(propEq('value', value), keyValueOptions)) }
     })
   }, [items])
 
@@ -37,6 +55,7 @@ export const Dropdown: FC<{
         name={selectObject.pointer}
         control={selectObject.formContext.control}
         rules={selectObject.validator}
+        defaultValue={defaultValue}
         as={
           <StyleguideDropdown
             name={label}
