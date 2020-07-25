@@ -1,6 +1,27 @@
 {
-  "custom-price-selector": {
+  "order-config": {
     "component": "CustomPriceSelector",
+    "composition": "children",
+    "allowed": [
+      "order-config.modal",
+      "order-config.form",
+      "order-config.title",
+      "flex-layout"
+    ]
+  },
+  "order-config.modal": {
+    "component": "OrderConfigurationModal",
+    "composition": "children",
+    "allowed": [
+      "order-config.form",
+      "order-config.title"
+    ]
+  },
+  "order-config.form": {
+    "component": "OrderConfigurationForm",
     "composition": "children"
+  },
+  "order-config.title": {
+    "component": "Title"
   }
 }

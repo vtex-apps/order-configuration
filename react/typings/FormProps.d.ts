@@ -5,6 +5,7 @@ export type FormProps = {
 export type CustomPriceSelectorProps = {
   formTitle: string
   formFields: FormField[]
+  onSuccessfulSubmit: () => void
 }
 
 export type FormField =
