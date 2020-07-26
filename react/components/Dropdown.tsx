@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react'
-import { find, propEq, path, pathOr } from 'ramda'
+import { find, omit, propEq, path, pathOr } from 'ramda'
 import { Dropdown as StyleguideDropdown } from 'vtex.styleguide'
 import {
   Controller,
@@ -10,20 +10,22 @@ import {
 import { useFormattedError } from '../hooks/useErrorMessage'
 import { BaseInputProps } from '../typings/InputProps'
 import { FormField } from '../typings/FormProps'
+import { useOrderConfiguration } from '../OrderConfigurationContext'
 
-type DropdownFields = {
-  formFields: FormField[]
-}
-
-type DefaultValues = {
-  defaultValues: {
-    [key: string]: string
-  }
-}
-
-export const DropdownInput: FC<BaseInputProps & DropdownFields & DefaultValues> = props => {
+export const DropdownInput: FC<BaseInputProps> = props => {
   const selectObject = useSelect(props.pointer)
-  return <Dropdown selectObject={selectObject} label={props.label} formFields={props.formFields} defaultValues={props.defaultValues} />
+  const { customSessionData, formFields } = useOrderConfiguration()
+  const defaultValues = omit(
+    ['email'],
+    JSON.parse(
+      pathOr(
+        '{}',
+        ['getCustomSessionKeys', 'customSessionKeys'],
+        customSessionData
+      )
+    )
+  )
+  return <Dropdown selectObject={selectObject} label={props.label} formFields={formFields} defaultValues={defaultValues} />
 }
 
 export const Dropdown: FC<{

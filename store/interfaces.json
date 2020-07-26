@@ -21,6 +21,18 @@
     "component": "OrderConfigurationForm",
     "composition": "children"
   },
+  "order-config.text": {
+    "component": "FormInputText"
+  },
+  "order-config.dropdown": {
+    "component": "FormInputDropdown"
+  },
+  "order-config.radiogroup": {
+    "component": "FormInputRadiogroup"
+  },
+  "order-config.submit": {
+    "component": "FormSubmit"
+  },
   "order-config.title": {
     "component": "Title"
   }

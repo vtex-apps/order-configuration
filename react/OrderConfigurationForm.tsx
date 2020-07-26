@@ -117,6 +117,8 @@ const OrderConfigurationForm: StorefrontFunctionComponent<
     })
   })
 
+  console.log(customPriceSchema)
+
   return (
     <ToastConsumer>
       {({ showToast }: ToastRenderProps) => {
@@ -127,6 +129,24 @@ const OrderConfigurationForm: StorefrontFunctionComponent<
             duration: TOAST_DURATION_MS,
           })
         }
+        if (!React.Children.count(props.children)) {
+          return (
+            <FormHandler
+              schema={customPriceSchema}
+              formProps={props}
+              email={email}
+              onSuccessfulSubmit={onSuccessfulSubmit}
+            >
+              <ObjectMapper
+                pointer="#"
+                uiSchema={UISchema}
+                formFields={formFields}
+                defaultValues={defaultValues}
+              />
+              <FormSubmit label="Submit" />
+            </FormHandler>
+          )
+        }
         return (
           <FormHandler
             schema={customPriceSchema}
@@ -134,13 +154,7 @@ const OrderConfigurationForm: StorefrontFunctionComponent<
             email={email}
             onSuccessfulSubmit={onSuccessfulSubmit}
           >
-            <ObjectMapper
-              pointer="#"
-              uiSchema={UISchema}
-              formFields={formFields}
-              defaultValues={defaultValues}
-            />
-            <FormSubmit label="Submit" />
+            {props.children}
           </FormHandler>
         )
       }}
