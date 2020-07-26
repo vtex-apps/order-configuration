@@ -1,0 +1,51 @@
+{
+  "order-config": {
+    "props": {
+      "formFields": [
+        {
+          "name": "orderType",
+          "type": "string",
+          "fieldType": "radio",
+          "label": "Order Type",
+          "defaultValue": "resale",
+          "options": [
+            {
+              "label": "Resale",
+              "value": "resale"
+            },
+            {
+              "label": "Consumption",
+              "value": "consumption"
+            }
+          ]
+        },
+        {
+          "name": "paymentMethod",
+          "type": "string",
+          "fieldType": "select",
+          "label": "Payment Method",
+          "defaultValue": "promissory_note",
+          "options": [
+            {
+              "label": "Promissory Note",
+              "value": "promissory_note"
+            },
+            {
+              "label": "Credit Card",
+              "value": "credit_card"
+            }
+          ]
+        }
+      ]
+    },
+    "children": [
+      "order-config.title",
+      "order-config.form"
+    ]
+  },
+  "order-config.title": {
+    "props": {
+      "formTitle": "Order Configuration Default"
+    }
+  }
+}

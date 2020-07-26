@@ -25,6 +25,7 @@
   "admin/editor.custom-price-selector.formFields.fieldType": "Field Input Type",
   "admin/editor.custom-price-selector.formFields.label": "Field Label",
   "admin/editor.custom-price-selector.formFields.required": "Required",
+  "admin/editor.custom-price-selector.formFields.showInTitle": "Show in Title",
   "admin/editor.custom-price-selector.formFields.format": "Input Format",
   "admin/editor.custom-price-selector.formFields.options": "Input Options",
   "admin/editor.custom-price-selector.formFields.options.description": "Options in case of select, radio or checkbox",
