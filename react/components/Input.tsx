@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { omit, path, pathOr } from 'ramda'
 import { Input as StyleguideInput } from 'vtex.styleguide'
 import {
   UseRawInputReturnType,
@@ -9,6 +10,7 @@ import {
 
 import { useFormattedError } from '../hooks/useErrorMessage'
 import { FormRawInputProps } from '../typings/InputProps'
+import { useOrderConfiguration } from '../OrderConfigurationContext'
 
 export const HiddenInput: FC<FormRawInputProps> = props => {
   const { pointer } = props
@@ -25,23 +27,40 @@ export const PasswordInput: FC<FormRawInputProps> = props => {
 export const RawInput: FC<FormRawInputProps> = props => {
   const { pointer, label } = props
   const inputObject = useInput(pointer)
-  return <Input inputObject={inputObject} label={label} />
+  const { customSessionData } = useOrderConfiguration()
+  const defaultValues = omit(
+    ['email'],
+    JSON.parse(
+      pathOr(
+        '{}',
+        ['getCustomSessionKeys', 'customSessionKeys'],
+        customSessionData
+      )
+    )
+  )
+  return <Input inputObject={inputObject} label={label} defaultValues={defaultValues} />
 }
 
 export const Input: FC<{
   inputObject: UseRawInputReturnType
   label?: string
+  defaultValues?: {
+    [key: string]: string
+  }
 }> = props => {
-  const { inputObject } = props
+  const { inputObject, defaultValues } = props
   const error = inputObject.getError()
 
   const subSchema = inputObject.getObject()
   const label = props.label ?? subSchema.title ?? inputObject.name
 
+  const defaultValue = path([inputObject.name], defaultValues)
+
   return (
     <StyleguideInput
       {...inputObject.getInputProps()}
       label={label}
+      defaultValue={defaultValue}
       error={!!error}
       errorMessage={useFormattedError(error)}
     />
