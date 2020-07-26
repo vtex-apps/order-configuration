@@ -25,6 +25,7 @@
   "admin/editor.custom-price-selector.formFields.fieldType": "Tipo de entrada do campo",
   "admin/editor.custom-price-selector.formFields.label": "Legenda do campo",
   "admin/editor.custom-price-selector.formFields.required": "Requeridos",
+  "admin/editor.custom-price-selector.formFields.showInTitle": "Mostrar no título",
   "admin/editor.custom-price-selector.formFields.format": "Formato de entrada",
   "admin/editor.custom-price-selector.formFields.options": "Opções de entrada",
   "admin/editor.custom-price-selector.formFields.options.description": "Opções em caso de seleção, rádio ou caixa de seleção",

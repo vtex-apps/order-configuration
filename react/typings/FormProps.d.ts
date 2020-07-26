@@ -22,6 +22,7 @@ export type InputField = {
   defaultValue?: string
   required?: boolean
   format?: string
+  showInTitle?: boolean
 }
 
 export type SelectField = FormField & {

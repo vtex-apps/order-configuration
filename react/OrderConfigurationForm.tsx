@@ -15,7 +15,7 @@ import { ToastRenderProps } from './typings/global'
 const OrderConfigurationForm: StorefrontFunctionComponent<
   CustomPriceSelectorProps
 > = props => {
-  const { customSessionData, profileData } = useOrderConfiguration()
+  const { customSessionData, profileData, formFields } = useOrderConfiguration()
 
   const defaultValues = omit(
     ['email'],
@@ -28,7 +28,6 @@ const OrderConfigurationForm: StorefrontFunctionComponent<
     )
   )
 
-  const { formFields = [] } = props
   const email = pathOr(null, ['profile', 'email'], profileData)
   let customPriceSchema: {
     type: string
@@ -152,85 +151,6 @@ const OrderConfigurationForm: StorefrontFunctionComponent<
 OrderConfigurationForm.defaultProps = {
   onSuccessfulSubmit: () => {
     window.location.reload()
-  },
-}
-
-OrderConfigurationForm.schema = {
-  title: 'admin/editor.custom-price-selector.title',
-  description: 'admin/editor.custom-price-selector.description',
-  type: 'object',
-  properties: {
-    formTitle: {
-      title: 'admin/editor.custom-price-selector.formTitle.title',
-      type: 'string',
-      default: 'Order Configuration',
-    },
-    formFields: {
-      title: 'admin/editor.custom-price-selector.formFields.title',
-      type: 'array',
-      items: {
-        title: 'admin/editor.custom-price-selector.formFields.title',
-        type: 'object',
-        properties: {
-          name: {
-            title: 'admin/editor.custom-price-selector.formFields.name',
-            type: 'string',
-          },
-          type: {
-            title: 'admin/editor.custom-price-selector.formFields.type',
-            type: 'string',
-            enum: ['string', 'number'],
-            enumNames: ['String', 'Number'],
-            widget: {
-              'ui:widget': 'radio',
-            },
-            default: 'string',
-          },
-          fieldType: {
-            title: 'admin/editor.custom-price-selector.formFields.fieldType',
-            type: 'string',
-            enum: ['text', 'textarea', 'select', 'radio', 'checkbox'],
-            enumNames: ['Text', 'Textarea', 'Select', 'Radio', 'Checkbox'],
-            default: 'text',
-          },
-          label: {
-            title: 'admin/editor.custom-price-selector.formFields.label',
-            type: 'string',
-          },
-          required: {
-            title: 'admin/editor.custom-price-selector.formFields.required',
-            type: 'boolean',
-          },
-          format: {
-            title: 'admin/editor.custom-price-selector.formFields.format',
-            type: 'string',
-            // required: false
-          },
-          options: {
-            title: 'admin/editor.custom-price-selector.formFields.options',
-            description:
-              'admin/editor.custom-price-selector.formFields.options.description',
-            type: 'array',
-            items: {
-              title: 'admin/editor.custom-price-selector.formFields.options',
-              type: 'object',
-              properties: {
-                label: {
-                  title:
-                    'admin/editor.custom-price-selector.formFields.options.label',
-                  type: 'string',
-                },
-                value: {
-                  title:
-                    'admin/editor.custom-price-selector.formFields.options.value',
-                  type: 'string',
-                },
-              },
-            },
-          },
-        },
-      },
-    },
   },
 }
 
