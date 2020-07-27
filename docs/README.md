@@ -18,9 +18,12 @@ Now, you are able to use the blocks exported by the `custom-price-selector` app.
 
 | Block name     | Description                                     |
 | -------------- | ----------------------------------------------- |
-| `custom-price-selector` | Renders the selected order configuration alongwith a form to update it. |
+| `order-config` | Renders the selected order configuration alongwith a form to update it |
+| `order-config.title` | Renders the selected order configuration values |
+| `order-config.modal` | Renders the blocks in a modal |
+| `order-config.form` | Renders the order configuration form content |
 
-2. In the header for example, add the `custom-price-selector` block.
+2. In the header for example, add the `order-config` block.
 
 ```JSON
 {
@@ -43,24 +46,30 @@ Now, you are able to use the blocks exported by the `custom-price-selector` app.
     "children": [
       "vtex.menu@2.x:menu#websites",
       "flex-layout.col#spacer",
-+     "custom-price-selector",
++     "order-config#header",
       "vtex.menu@2.x:menu#institutional"
     ]
   },
 ```
 
-3.  Then, declare the `custom-price-selector` block.
+3.  Then, declare the `order-config#header` block.
 
 ```JSON
 {
-  "custom-price-selector": {
+  "order-config#header": {
+    "children": [
+      "order-config.title#header",
+      "order-config.modal#header"
+    ],
     "props": {
+      "blockClass": "header",
       "formFields": [
         {
           "name": "orderType",
           "type": "string",
           "fieldType": "radio",
           "label": "Order Type",
+          "defaultValue": "resale",
           "options": [
             {
               "label": "Resale",
@@ -73,10 +82,54 @@ Now, you are able to use the blocks exported by the `custom-price-selector` app.
           ]
         },
         {
+          "name": "state",
+          "type": "string",
+          "fieldType": "select",
+          "label": "State",
+          "showInTitle": true,
+          "options": [
+            {
+              "label": "ES",
+              "value": "ES"
+            },
+            {
+              "label": "SP",
+              "value": "SP"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "order-config.modal#header": {
+    "children": [
+      "order-config.form"
+    ]
+  },
+  "order-config.title#header": {
+    "props": {
+      "formTitle": "Order Configuration for Header"
+    }
+  },
+}
+```
+
+:information_source: If the <code>form</code> block does not have any children configured, <strong>a default form will be rendered</strong> automatically based on the JSON schema in Master Data. This reading and interpretation of  JSON schemas is due to the <a href="[https://github.com/vtex/react-hook-form-jsonschema)](https://github.com/vtex/react-hook-form-jsonschema))">Reacht Hook Form JSON Schema</a> library (which is supporting the Store Form blocks logic behind the scenes).
+
+4. If desired,  complete the `order-config.form` block by adding and configuring an array of children blocks. For example:
+
+```JSON
+{
+  "order-config#static-page": {
+    "props": {
+      "formFields": [
+        {
           "name": "paymentMethod",
           "type": "string",
           "fieldType": "select",
           "label": "Payment Method",
+          "defaultValue": "promissory_note",
+          "showInTitle": true,
           "options": [
             {
               "label": "Promissory Note",
@@ -87,10 +140,76 @@ Now, you are able to use the blocks exported by the `custom-price-selector` app.
               "value": "credit_card"
             }
           ]
+        },
+        {
+          "name": "state",
+          "type": "string",
+          "fieldType": "select",
+          "label": "State",
+          "showInTitle": true,
+          "required": true,
+          "options": [
+            {
+              "label": "ES",
+              "value": "ES"
+            },
+            {
+              "label": "SP",
+              "value": "SP"
+            }
+          ]
+        },
+        {
+          "name": "someTextInput",
+          "label": "Some Text Input",
+          "fieldType": "input",
+          "type": "string",
+          "required": true,
+          "showInTitle": true
         }
       ]
+    },
+    "children": [
+      "order-config.title#static-page",
+      "order-config.form#static-page"
+    ]
+  },
+  "order-config.form#static-page": {
+    "children": [
+      "flex-layout.row#state-and-payment-method",
+      "order-config.text#some-text-input",
+      "order-config.submit"
+    ]
+  },
+  "flex-layout.row#state-and-payment-method": {
+    "children": [
+      "order-config.dropdown#state",
+      "order-config.radiogroup#payment-method"
+    ],
+    "props": {
+      "blockClass": "stateAndPaymentMethod"
     }
   },
+  "order-config.dropdown#state": {
+    "props": {
+      "pointer": "#/properties/state"
+    }
+  },
+  "order-config.radiogroup#payment-method": {
+    "props": {
+      "pointer": "#/properties/paymentMethod"
+    }
+  },
+  "order-config.text#some-text-input": {
+    "props": {
+      "pointer": "#/properties/someTextInput"
+    }
+  },
+  "order-config.title#static-page": {
+    "props": {
+      "formTitle": "Order Configuration for Static Page"
+    }
+  }
 }
 ```
 
@@ -106,6 +225,7 @@ Now, you are able to use the blocks exported by the `custom-price-selector` app.
 | `type` | `string` |  Field value type (`string` or `number`) | `string`              |
 | `fieldType` | `string` |  Field input type (`text`, `textarea`, `select`, `radio` or `checkbox`) | `text`              |
 | `label` | `string` |  Field label | Field's name  |
+| `showInTitle` | `boolean` |  Whether to show the field value in the title | `false`  |
 | `options` | `array` |  Field options in case of `select`, `radio` or `checkbox` | `undefined`  |
 
 ### `options` props
@@ -122,5 +242,13 @@ In order to apply CSS customizations in this and other blocks, follow the instru
 | CSS Handles |
 | ----------- | 
 | `loader` | 
+| `wrapper` | 
 | `title` | 
 | `titleValues` |
+| `titleWrapper` |
+| `orderConfigFormWrapper` |
+| `formSubmitContainer` |
+| `formSubmitButton` |
+| `formErrorServer` |
+| `formErrorUserInput` |
+| `orderConfigFormWrapper` |
