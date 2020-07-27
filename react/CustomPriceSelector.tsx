@@ -8,7 +8,7 @@ import getProfile from './queries/getProfile.graphql'
 import { OrderConfigurationContextProvider } from './OrderConfigurationContext'
 import { FormField } from './typings/FormProps'
 
-const CSS_HANDLES = ['loader'] as const
+const CSS_HANDLES = ['loader', 'wrapper'] as const
 
 type Props = {
   formFields: FormField[]
@@ -52,7 +52,9 @@ const CustomPriceSelector: StorefrontFunctionComponent<Props> = props => {
       profileData={profileData}
       formFields={props.formFields}
     >
-      {props.children}
+      <div className={`mw9 center flex flex-column ${handles.wrapper}`}>
+        {props.children}
+      </div>
     </OrderConfigurationContextProvider>
   )
 }

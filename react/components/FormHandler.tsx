@@ -13,6 +13,9 @@ import updateCustomSessionKeys from '../mutations/updateCustomSessionKeys.graphq
 import { FormProps } from '../typings/FormProps'
 import { parseMasterDataError } from '../logic/masterDataError'
 import { useSubmitReducer, SubmitContext } from '../logic/formState'
+import { useCssHandles } from 'vtex.css-handles'
+
+const CSS_HANDLES = ['orderConfigFormWrapper'] as const
 
 export const FormHandler: FC<{
   schema: JSONSchemaType
@@ -76,6 +79,7 @@ export const FormHandler: FC<{
     ]
   )
 
+  const handles = useCssHandles(CSS_HANDLES)
 
   return (
     <FormContext
@@ -98,7 +102,9 @@ export const FormHandler: FC<{
       }}
     >
       <SubmitContext.Provider value={submitState}>
-        {props.children}
+        <div className={handles.orderConfigFormWrapper}>
+          {props.children}
+        </div>
       </SubmitContext.Provider>
     </FormContext>
   )
