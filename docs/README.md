@@ -114,9 +114,9 @@ Now, you are able to use the blocks exported by the `custom-price-selector` app.
 }
 ```
 
-:information_source: If the <code>form</code> block does not have any children configured, <strong>a default form will be rendered</strong> automatically based on the JSON schema in Master Data. This reading and interpretation of  JSON schemas is due to the <a href="[https://github.com/vtex/react-hook-form-jsonschema)](https://github.com/vtex/react-hook-form-jsonschema))">Reacht Hook Form JSON Schema</a> library (which is supporting the Store Form blocks logic behind the scenes).
+:information_source: If the <code>form</code> block does not have any children configured, <strong>a default form will be rendered</strong> automatically based on `formFields`. This reading and interpretation is based on the <a href="[https://github.com/vtex/react-hook-form-jsonschema)](https://github.com/vtex/react-hook-form-jsonschema))">React Hook Form JSON Schema</a> library.
 
-4. If desired,  complete the `order-config.form` block by adding and configuring an array of children blocks. For example:
+4. If desired, complete the `order-config.form` block by adding and configuring an array of children blocks. For example:
 
 ```JSON
 {
