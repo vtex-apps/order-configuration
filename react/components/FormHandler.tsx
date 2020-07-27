@@ -76,7 +76,6 @@ export const FormHandler: FC<{
     ]
   )
 
-  console.log('In order config form handler')
 
   return (
     <FormContext

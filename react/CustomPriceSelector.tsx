@@ -1,5 +1,6 @@
 import React from 'react'
 import { useQuery } from 'react-apollo'
+import { omit, pathOr } from 'ramda'
 import { useCssHandles } from 'vtex.css-handles'
 
 import getCustomSessionKeys from './queries/getCustomSessionKeys.graphql'
@@ -34,16 +35,26 @@ const CustomPriceSelector: StorefrontFunctionComponent<Props> = props => {
     )
   }
 
+  const selectedValues = omit(
+    ['email'],
+    JSON.parse(
+      pathOr(
+        '{}',
+        ['getCustomSessionKeys', 'customSessionKeys'],
+        customSessionData
+      )
+    )
+  )
+
   return (
     <OrderConfigurationContextProvider
-      customSessionData={customSessionData}
+      selectedValues={selectedValues}
       profileData={profileData}
       formFields={props.formFields}
     >
       {props.children}
     </OrderConfigurationContextProvider>
   )
-
 }
 
 CustomPriceSelector.schema = {
@@ -95,7 +106,7 @@ CustomPriceSelector.schema = {
           showInTitle: {
             title: 'admin/editor.custom-price-selector.formFields.showInTitle',
             type: 'boolean',
-            default: false
+            default: false,
           },
           format: {
             title: 'admin/editor.custom-price-selector.formFields.format',

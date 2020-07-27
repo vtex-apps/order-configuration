@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { find, omit, propEq, path, pathOr } from 'ramda'
+import { find, propEq, path, pathOr } from 'ramda'
 import { RadioGroup as StyleguideRadioGroup } from 'vtex.styleguide'
 import {
   UseRadioReturnType,
@@ -15,18 +15,8 @@ import { useOrderConfiguration } from '../OrderConfigurationContext'
 export const RadioGroupInput: FC<BaseInputProps> = props => {
   const { pointer, label } = props
   const radioObject = useRadio(pointer)
-  const { customSessionData, formFields } = useOrderConfiguration()
-  const defaultValues = omit(
-    ['email'],
-    JSON.parse(
-      pathOr(
-        '{}',
-        ['getCustomSessionKeys', 'customSessionKeys'],
-        customSessionData
-      )
-    )
-  )
-  return <RadioGroup radioObject={radioObject} label={label} formFields={formFields} defaultValues={defaultValues} />
+  const { selectedValues, formFields } = useOrderConfiguration()
+  return <RadioGroup radioObject={radioObject} label={label} formFields={formFields} defaultValues={selectedValues} />
 }
 
 export const RadioGroup: FC<{
