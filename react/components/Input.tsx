@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { omit, path, pathOr } from 'ramda'
+import { path } from 'ramda'
 import { Input as StyleguideInput } from 'vtex.styleguide'
 import {
   UseRawInputReturnType,
@@ -27,18 +27,8 @@ export const PasswordInput: FC<FormRawInputProps> = props => {
 export const RawInput: FC<FormRawInputProps> = props => {
   const { pointer, label } = props
   const inputObject = useInput(pointer)
-  const { customSessionData } = useOrderConfiguration()
-  const defaultValues = omit(
-    ['email'],
-    JSON.parse(
-      pathOr(
-        '{}',
-        ['getCustomSessionKeys', 'customSessionKeys'],
-        customSessionData
-      )
-    )
-  )
-  return <Input inputObject={inputObject} label={label} defaultValues={defaultValues} />
+  const { selectedValues } = useOrderConfiguration()
+  return <Input inputObject={inputObject} label={label} defaultValues={selectedValues} />
 }
 
 export const Input: FC<{

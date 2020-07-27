@@ -6,3 +6,7 @@ export interface ShowToastParams {
 export interface ToastRenderProps {
   showToast: (params: ShowToastParams) => void
 }
+
+export type CustomSessionData = {
+  [key: string]: string
+}

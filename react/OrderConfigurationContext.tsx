@@ -1,5 +1,6 @@
 import React, { createContext, useReducer, useContext } from 'react'
 import { FormField } from './typings/FormProps'
+import { CustomSessionData } from './typings/global'
 
 const OrderConfigurationContext = createContext<State | undefined>(undefined)
 const OrderConfigurationDispatchContext = createContext<Dispatch | undefined>(
@@ -11,7 +12,7 @@ type State = {
   modal: {
     isOpen: boolean
   }
-  customSessionData: CustomSessionData
+  selectedValues: CustomSessionData
   profileData: ProfileData
   formFields: FormField[]
 }
@@ -73,16 +74,10 @@ export const reducer = (state: State, action: Action) => {
 }
 
 type Props = {
-  customSessionData: CustomSessionData
+  selectedValues: CustomSessionData
   profileData: ProfileData
   children: any
   formFields: FormField[]
-}
-
-type CustomSessionData = {
-  getCustomSessionKeys: {
-    customSessionKeys?: string
-  }
 }
 
 type ProfileData = {
@@ -92,13 +87,13 @@ type ProfileData = {
 }
 
 export const OrderConfigurationContextProvider = ({
-  customSessionData,
+  selectedValues,
   profileData,
   formFields,
   children,
 }: Props) => {
   const initialState = {
-    customSessionData,
+    selectedValues,
     profileData,
     formFields,
     isLoading: true,

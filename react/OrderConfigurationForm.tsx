@@ -1,5 +1,5 @@
 import React from 'react'
-import { contains, has, mergeRight, omit, pathOr } from 'ramda'
+import { contains, has, mergeRight, pathOr } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { UITypes } from 'react-hook-form-jsonschema'
 
@@ -15,18 +15,7 @@ import { ToastRenderProps } from './typings/global'
 const OrderConfigurationForm: StorefrontFunctionComponent<
   CustomPriceSelectorProps
 > = props => {
-  const { customSessionData, profileData, formFields } = useOrderConfiguration()
-
-  const defaultValues = omit(
-    ['email'],
-    JSON.parse(
-      pathOr(
-        '{}',
-        ['getCustomSessionKeys', 'customSessionKeys'],
-        customSessionData
-      )
-    )
-  )
+  const { selectedValues, profileData, formFields } = useOrderConfiguration()
 
   const email = pathOr(null, ['profile', 'email'], profileData)
   let customPriceSchema: {
@@ -117,8 +106,6 @@ const OrderConfigurationForm: StorefrontFunctionComponent<
     })
   })
 
-  console.log(customPriceSchema)
-
   return (
     <ToastConsumer>
       {({ showToast }: ToastRenderProps) => {
@@ -141,7 +128,7 @@ const OrderConfigurationForm: StorefrontFunctionComponent<
                 pointer="#"
                 uiSchema={UISchema}
                 formFields={formFields}
-                defaultValues={defaultValues}
+                defaultValues={selectedValues}
               />
               <FormSubmit label="Submit" />
             </FormHandler>
