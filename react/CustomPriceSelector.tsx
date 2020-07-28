@@ -113,7 +113,8 @@ CustomPriceSelector.schema = {
           format: {
             title: 'admin/editor.custom-price-selector.formFields.format',
             type: 'string',
-            // required: false
+            enum: ['', 'email', 'date-time', 'hostname', 'ipv4', 'ipv6', 'uri'],
+            enumNames: ['Not specified', 'Email', 'Date/time in ISO format', 'Internet host name', 'IPv4 address', 'IPv6 address', 'A universal resource identifier'],
           },
           options: {
             title: 'admin/editor.custom-price-selector.formFields.options',
