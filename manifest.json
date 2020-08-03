@@ -1,7 +1,7 @@
 {
   "vendor": "b2bstore",
   "name": "custom-price-selector",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "title": "Custom Price Selector",
   "description": "A custom price selector for B2B users",
   "defaultLocale": "pt-BR",
