@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Added select for input format in site editor
+- Stored custom data in the order form
 
 ## [0.0.2] - 2020-07-27
 
