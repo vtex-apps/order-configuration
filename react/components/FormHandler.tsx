@@ -10,8 +10,9 @@ import { useMutation } from 'react-apollo'
 import { GraphQLError } from 'graphql'
 
 import updateCustomSessionKeys from '../mutations/updateCustomSessionKeys.graphql'
+import setOrderFormCustomData from '../mutations/setOrderFormCustomData.graphql'
 import { FormProps } from '../typings/FormProps'
-import { parseMasterDataError } from '../logic/masterDataError'
+import { parseSchemaError } from '../logic/schemaError'
 import { useSubmitReducer, SubmitContext } from '../logic/formState'
 import { useCssHandles } from 'vtex.css-handles'
 
@@ -24,8 +25,9 @@ export const FormHandler: FC<{
   onSuccessfulSubmit: () => void
 }> = props => {
   const [updateCustomSessionKeyMutation, { error }] = useMutation(updateCustomSessionKeys)
+  const [updateOrderFormCustomData] = useMutation(setOrderFormCustomData)
 
-  const masterDataErrors = useMemo(() => parseMasterDataError(error), [error])
+  const schemaErrors = useMemo(() => parseSchemaError(error), [error])
   const [lastErrorFieldValues, setLastErrorFieldValues] = useState<
     Record<string, string>
   >({})
@@ -46,10 +48,18 @@ export const FormHandler: FC<{
           sessionData: { sessionData: sessionData },
         },
       })
-        .then(() => {
-          dispatchSubmitAction({ type: 'SET_SUCCESS' })
-          const { onSuccessfulSubmit } = props
-          onSuccessfulSubmit()
+        .then(async () => {
+          await updateOrderFormCustomData({
+            variables: {
+              appId: 'orderConfig',
+              field: 'values',
+              value: JSON.stringify(sessionData),
+            }
+          }).then(() => {
+            dispatchSubmitAction({ type: 'SET_SUCCESS' })
+            const { onSuccessfulSubmit } = props
+            onSuccessfulSubmit()
+          })
         })
         .catch(e => {
           setLastErrorFieldValues(data)
@@ -75,6 +85,7 @@ export const FormHandler: FC<{
     },
     [
       updateCustomSessionKeyMutation,
+      updateOrderFormCustomData,
       dispatchSubmitAction,
     ]
   )
@@ -92,10 +103,10 @@ export const FormHandler: FC<{
             lastErrorFieldValues
           )
           if (
-            masterDataErrors[context.pointer] &&
+            schemaErrors[context.pointer] &&
             ((!lastValue && !value) || lastValue === value)
           ) {
-            return masterDataErrors[context.pointer][0]
+            return schemaErrors[context.pointer][0]
           }
           return true
         },

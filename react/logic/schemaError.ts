@@ -6,9 +6,9 @@ const concatFormPointer = (currPath: string, next: string) => {
   return `${currPath}/${next}`
 }
 
-export type MasterDataErrorRecord = Record<string, ErrorTypes[]>
+export type SchemaErrorRecord = Record<string, ErrorTypes[]>
 
-interface MasterDataError {
+interface SchemaError {
   Message: string
   LineNumber: number
   LinePosition: number
@@ -22,8 +22,8 @@ interface MasterDataError {
 }
 
 const concatErrors = (
-  errors: MasterDataError[],
-  error: { schema: string; errors: MasterDataError }
+  errors: SchemaError[],
+  error: { schema: string; errors: SchemaError }
 ) => {
   if (error.errors) {
     return errors.concat(error.errors)
@@ -31,8 +31,8 @@ const concatErrors = (
   return errors
 }
 
-const filterMasterDataErrors = (
-  acc: MasterDataError[],
+const filterSchemaErrors = (
+  acc: SchemaError[],
   message: GraphQLError
 ) => {
   if (message?.extensions?.exception?.response?.data?.errors) {
@@ -44,7 +44,7 @@ const filterMasterDataErrors = (
 }
 
 const createOrPushError = (
-  errorRecord: MasterDataErrorRecord,
+  errorRecord: SchemaErrorRecord,
   pointer: string,
   error: ErrorTypes
 ) => {
@@ -55,8 +55,8 @@ const createOrPushError = (
   }
 }
 
-const evaluateMasterDataRequiredErrors = (
-  data: { nodes: MasterDataErrorRecord; schemaId: string },
+const evaluateSchemaRequiredErrors = (
+  data: { nodes: SchemaErrorRecord; schemaId: string },
   nodeName: string
 ) => {
   const pointer = concatFormPointer(
@@ -67,15 +67,15 @@ const evaluateMasterDataRequiredErrors = (
   return { nodes: data.nodes, schemaId: data.schemaId }
 }
 
-const evaluateMasterDataErrors = (
-  acc: MasterDataErrorRecord,
-  serverError: MasterDataError
+const evaluateSchemaErrors = (
+  acc: SchemaErrorRecord,
+  serverError: SchemaError
 ) => {
   // eslint-disable-next-line default-case
   switch (serverError.ErrorType) {
     case 'required':
       if (Array.isArray(serverError.Value)) {
-        acc = serverError.Value.reduce(evaluateMasterDataRequiredErrors, {
+        acc = serverError.Value.reduce(evaluateSchemaRequiredErrors, {
           nodes: acc,
           schemaId: serverError.SchemaId,
         }).nodes
@@ -104,14 +104,14 @@ const evaluateMasterDataErrors = (
   return acc
 }
 
-export const parseMasterDataError = (
+export const parseSchemaError = (
   error: ApolloError | undefined
-): MasterDataErrorRecord => {
+): SchemaErrorRecord => {
   if (!error) {
     return {}
   }
 
   return error.graphQLErrors
-    .reduce(filterMasterDataErrors, [])
-    .reduce(evaluateMasterDataErrors, {})
+    .reduce(filterSchemaErrors, [])
+    .reduce(evaluateSchemaErrors, {})
 }
