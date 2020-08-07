@@ -1,8 +1,8 @@
 {
-  "vendor": "b2bstore",
-  "name": "custom-price-selector",
-  "version": "0.0.4",
-  "title": "Custom Price Selector",
+  "vendor": "vtex",
+  "name": "order-configuration",
+  "version": "0.0.1",
+  "title": "Order Configuration",
   "description": "A custom price selector for B2B users",
   "defaultLocale": "pt-BR",
   "builders": {

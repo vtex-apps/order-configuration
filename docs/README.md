@@ -1,4 +1,4 @@
-# Custom Price Selector for B2B Users
+# Order Configuration - B2B
 
 This component allows a B2B user to select a pricing profile.
 
