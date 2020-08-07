@@ -41,11 +41,9 @@ export const FormHandler: FC<{
       }
       dispatchSubmitAction({ type: 'SET_LOADING' })
 
-      const sessionData = { ...data, email: props.email }
-
       await updateCustomSessionKeyMutation({
         variables: {
-          sessionData: { sessionData: sessionData },
+          sessionData: { sessionData: { ...data, email: props.email } },
         },
       })
         .then(async () => {
@@ -53,7 +51,7 @@ export const FormHandler: FC<{
             variables: {
               appId: 'orderConfig',
               field: 'values',
-              value: JSON.stringify(sessionData),
+              value: JSON.stringify(data),
             }
           }).then(() => {
             dispatchSubmitAction({ type: 'SET_SUCCESS' })
