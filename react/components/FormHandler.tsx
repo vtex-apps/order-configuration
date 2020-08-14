@@ -43,7 +43,7 @@ export const FormHandler: FC<{
 
       await updateCustomSessionKeyMutation({
         variables: {
-          sessionData: { sessionData: { ...data, email: props.email } },
+          sessionData: { sessionData: { ...data } },
         },
       })
         .then(async () => {
