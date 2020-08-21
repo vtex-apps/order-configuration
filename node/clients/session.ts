@@ -8,6 +8,7 @@ interface VtexIdCookies {
 }
 
 const SESSION_COOKIE = 'vtex_session'
+const SEGMENT_COOKIE = 'vtex_segment'
 
 const routes = {
   base: '/api/sessions',
@@ -34,10 +35,12 @@ export default class Session extends JanusClient {
 
     const parsedCookie = parseCookie.parse(setCookies)
     const sessionToken = prop(SESSION_COOKIE, parsedCookie)
+    const segmentToken = prop(SEGMENT_COOKIE, parsedCookie)
 
     return {
+      segmentToken,
       sessionData,
-      sessionToken,
+      sessionToken,      
     }
   }
   
