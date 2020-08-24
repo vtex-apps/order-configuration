@@ -1,6 +1,6 @@
 {
   "name": "custom-price-selector",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "scripts": {
     "test": "vtex-test-tools test",
     "lint": "tsc --noEmit && eslint --ext ts,tsx ."
