@@ -6,7 +6,7 @@ This component allows a B2B user to select a pricing profile.
 
 :warning: Keep in mind not to add an input for the user's `email`, as the email is collected from the user profile.
 
-1. Add `custom-price-selector` app to your theme's dependencies in the `manifest.json`, for example:
+1. Add `order-configuration` app to your theme's dependencies in the `manifest.json`, for example:
 
 ```JSON
 dependencies: {
