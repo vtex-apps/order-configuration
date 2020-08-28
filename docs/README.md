@@ -10,7 +10,7 @@ This component allows a B2B user to select a pricing profile.
 
 ```JSON
 dependencies: {
-  "b2bstore.custom-price-selector": "0.x"
+  "vtex.order-configuration": "0.x"
 }
 ```
 
