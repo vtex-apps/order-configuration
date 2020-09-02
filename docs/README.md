@@ -14,7 +14,7 @@ The Order Configuration app, designed for **B2B scenarios**, displays a form res
 
 Once the form is submitted, the order data collected defines the product prices that should be shown to the user. 
 
-:information_source: *When talking about B2B scenarios, keep in mind that price discounts (no matter how low they can be) are decisive factors in purchase decisions. The Order Configuration component therefore has a decisive role for your B2B store sales taxes.*
+:information_source: *When talking about B2B scenarios, keep in mind that price discounts (no matter how low they can be) are decisive factors in a purchase. The Order Configuration component therefore can play a decisive role for your B2B store sales taxes.*
 
 ## Configuration
 
