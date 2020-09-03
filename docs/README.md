@@ -138,20 +138,20 @@ If desired, you can declare the `order-config.form` block by adding and configur
     "props": {
       "formFields": [
         {
-          "name": "paymentMethod",
+          "name": "orderType",
           "type": "string",
           "fieldType": "select",
-          "label": "Payment Method",
-          "defaultValue": "promissory_note",
+          "label": "Order Type",
+          "defaultValue": "res",
           "showInTitle": true,
           "options": [
             {
-              "label": "Promissory Note",
-              "value": "promissory_note"
+              "label": "Resale",
+              "value": "res"
             },
             {
-              "label": "Credit Card",
-              "value": "credit_card"
+              "label": "Consumption",
+              "value": "cons"
             }
           ]
         },
