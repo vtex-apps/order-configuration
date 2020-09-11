@@ -41,13 +41,22 @@ export const FormHandler: FC<{
       }
       dispatchSubmitAction({ type: 'SET_LOADING' })
 
-      await updateCustomSessionKeyMutation({
-        variables: {
-          sessionData: { sessionData: { ...data } },
-        },
-      })
-        .then(async () => {
-          await updateOrderFormCustomData({
+      await fetch('/api/sessions/', {
+        method: 'POST',
+        body: JSON.stringify({
+      "public":{
+      "customSessionKeys":{
+      "value": JSON.stringify(data)
+      }
+      }
+        }),
+        credentials: 'same-origin',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      })      
+        
+      await updateOrderFormCustomData({
             variables: {
               appId: 'orderConfig',
               field: 'values',
@@ -58,7 +67,7 @@ export const FormHandler: FC<{
             const { onSuccessfulSubmit } = props
             onSuccessfulSubmit()
           })
-        })
+        
         .catch(e => {
           setLastErrorFieldValues(data)
 

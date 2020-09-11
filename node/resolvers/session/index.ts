@@ -34,6 +34,6 @@ export const mutations = {
 
     ctx.response.set('Set-Cookie', response.headers['set-cookie'])
 
-    return queries.getCustomSessionKeys({}, {}, ctx)
+    return JSON.stringify(sessionData)    
   },
 }
