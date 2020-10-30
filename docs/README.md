@@ -12,9 +12,11 @@ The Order Configuration app, designed for **B2B scenarios**, displays a form res
 
 ![order-configuration-gif](https://user-images.githubusercontent.com/52087100/91925199-e5125200-ecaa-11ea-8734-f98921ddb384.gif)
 
-Once the form is submitted, the order data collected defines the product prices that should be shown to the user. 
+Once the form is submitted, the order data collected defines the product prices that should be shown to the user and saves it in the current VTEX session.
 
 :information_source: *When talking about B2B scenarios, keep in mind that price discounts (no matter how low they can be) are decisive factors in a purchase. The Order Configuration component therefore can play a decisive role for your B2B store sales taxes.*
+
+:warning: *This app only stores the selected values in the current session, you will need to install a complementary app in the account (ex. installing [custom-prices app](https://github.com/vtex/custom-prices)) in order to read the session and update prices or any other value.*
 
 ## Configuration
 
