@@ -5,7 +5,7 @@ interface CustomSessionArg {
   sessionData: { sessionData: any }
 }
 
-const CUSTOM_SESSSION_KEY = 'customSessionKeys'
+const CUSTOM_SESSION_KEY = 'customSessionKeys'
 
 export const queries = {
   /**
@@ -25,7 +25,7 @@ export const mutations = {
     } = ctx
 
     const response = await customSession.updateSession(
-      CUSTOM_SESSSION_KEY,
+      CUSTOM_SESSION_KEY,
       JSON.stringify(sessionData),
       [],
       cookies.get(VTEX_SESSION)!,
@@ -34,6 +34,6 @@ export const mutations = {
 
     ctx.response.set('Set-Cookie', response.headers['set-cookie'])
 
-    return JSON.stringify(sessionData)    
+    return JSON.stringify(sessionData)
   },
 }
