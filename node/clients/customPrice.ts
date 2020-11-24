@@ -1,7 +1,7 @@
 import {
+  ExternalClient,
   InstanceOptions,
   IOContext,
-  ExternalClient,
   RequestConfig,
 } from '@vtex/api'
 

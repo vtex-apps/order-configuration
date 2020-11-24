@@ -1,11 +1,11 @@
-import { vtexIdCookies } from '../../utils/vtexId'
-import { VTEX_SESSION, getCustomSessionKeys } from './service'
+import { vtexIdCookies } from "../../utils/vtexId";
+import { VTEX_SESSION, getCustomSessionKeys } from "./service";
 
 interface CustomSessionArg {
-  sessionData: { sessionData: any }
+  sessionData: { sessionData: any };
 }
 
-const CUSTOM_SESSION_KEY = 'customSessionKeys'
+const CUSTOM_SESSION_KEY = "customSessionKeys";
 
 export const queries = {
   /**
@@ -13,16 +13,20 @@ export const queries = {
    * @return Session
    */
   getCustomSessionKeys: async (_: any, __: any, ctx: Context) => {
-    return getCustomSessionKeys(ctx)
-  },
-}
+    return getCustomSessionKeys(ctx);
+  }
+};
 
 export const mutations = {
-  updateCustomSessionKeys: async (_: any, { sessionData: { sessionData } }: CustomSessionArg, ctx: Context) => {
+  updateCustomSessionKeys: async (
+    _: any,
+    { sessionData: { sessionData } }: CustomSessionArg,
+    ctx: Context
+  ) => {
     const {
       clients: { customSession },
-      cookies,
-    } = ctx
+      cookies
+    } = ctx;
 
     const response = await customSession.updateSession(
       CUSTOM_SESSION_KEY,
@@ -30,10 +34,10 @@ export const mutations = {
       [],
       cookies.get(VTEX_SESSION)!,
       vtexIdCookies(ctx)
-    )
+    );
 
-    ctx.response.set('Set-Cookie', response.headers['set-cookie'])
+    ctx.response.set("Set-Cookie", response.headers["set-cookie"]);
 
-    return JSON.stringify(sessionData)
-  },
-}
+    return JSON.stringify(sessionData);
+  }
+};

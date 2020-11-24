@@ -1,22 +1,22 @@
 import {
   mutations as sessionMutations,
-  queries as sessionQueries,
+  queries as sessionQueries
   // fieldResolvers as sessionResolvers,
-} from './session'
+} from "./session";
 
 import {
   // fieldResolvers as customPriceFieldResolvers,
-  queries as customPriceQueries,
-} from './customPrices'
+  queries as customPriceQueries
+} from "./customPrices";
 
 export const resolvers = {
   // ...sessionResolvers,
   // ...customPriceFieldResolvers,
   Mutation: {
-    ...sessionMutations,
+    ...sessionMutations
   },
   Query: {
     ...sessionQueries,
-    ...customPriceQueries,
-  },
-}
+    ...customPriceQueries
+  }
+};
