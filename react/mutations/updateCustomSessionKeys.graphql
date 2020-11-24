@@ -1,9 +1,0 @@
-mutation updateCustomSessionKeys(
-  $sessionData: CustomSessionInput!
-) {
-  updateCustomSessionKeys(
-    sessionData: $sessionData
-  ) @context(provider: "b2bstore.custom-price-selector") {
-    customSessionKeys
-  }
-}

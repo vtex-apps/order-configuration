@@ -11,7 +11,3 @@ export const queries = {
     return { schema: data };
   }
 };
-
-// export const fieldResolvers = {
-//   ...customPriceSchemaResolvers,
-// }
