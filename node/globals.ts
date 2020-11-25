@@ -1,38 +1,40 @@
 import {
   IOContext,
   MetricsAccumulator,
+  ParamsContext,
+  RecorderState,
   SegmentData,
-  ServiceContext,
-} from '@vtex/api'
+  ServiceContext
+} from "@vtex/api";
 
-import { Clients } from './clients'
+import { Clients } from "./clients";
 
 if (!global.metrics) {
-  console.error('No global.metrics at require time')
-  global.metrics = new MetricsAccumulator()
+  console.error("No global.metrics at require time");
+  global.metrics = new MetricsAccumulator();
 }
 
 declare global {
-  type Context = ServiceContext<Clients, void, CustomContext>
+  type Context = ServiceContext<Clients, RecorderState, CustomContext>;
 
-  interface CustomContext {
-    cookie: string
-    originalPath: string
-    vtex: CustomIOContext
+  interface CustomContext extends ParamsContext {
+    cookie: string;
+    originalPath: string;
+    vtex: CustomIOContext;
   }
 
   interface CustomIOContext extends IOContext {
-    segment?: SegmentData
-    orderFormId?: string
+    segment?: SegmentData;
+    orderFormId?: string;
   }
 
   interface KeyValue {
-    key: string
-    value: string
+    key: string;
+    value: string;
   }
 
   interface Property {
-    name: string
-    values: [string]
+    name: string;
+    values: [string];
   }
 }

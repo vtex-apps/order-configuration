@@ -1,5 +1,4 @@
 import {
-  mutations as sessionMutations,
   queries as sessionQueries
   // fieldResolvers as sessionResolvers,
 } from "./session";
@@ -9,11 +8,13 @@ import {
   queries as customPriceQueries
 } from "./customPrices";
 
+import { mutations as orderConfigurationMutations } from "./orderConfiguration";
+
 export const resolvers = {
   // ...sessionResolvers,
   // ...customPriceFieldResolvers,
   Mutation: {
-    ...sessionMutations
+    ...orderConfigurationMutations
   },
   Query: {
     ...sessionQueries,

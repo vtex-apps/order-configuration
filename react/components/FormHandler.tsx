@@ -45,7 +45,7 @@ export const FormHandler: FC<{
             'Content-type': 'application/json; charset=UTF-8'
           }
         })
-x
+
         await setOrderFormCustomData({
           variables: {
             appId: 'orderConfig',
@@ -53,6 +53,10 @@ x
             value: JSON.stringify(data),
           }
         })
+
+        console.log(JSON.stringify(data))
+
+        // await selectOrderConfiguration({...})
 
         dispatchSubmitAction({ type: 'SET_SUCCESS' })
         const { onSuccessfulSubmit } = props
@@ -73,7 +77,6 @@ x
 
     },
     [
-      updateOrderFormCustomData,
       dispatchSubmitAction,
     ]
   )

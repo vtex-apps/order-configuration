@@ -4,11 +4,11 @@ type Query {
   Get profile information to session users
   """
   getSession: Session @cacheControl(scope: PRIVATE)
-  
+
   """
     Get customSessionKeys from Session
   """
-  getCustomSessionKeys: CustomSessionKeyResponse @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
+  getCustomSessionKeys: CustomSessionKeyResponse @cacheControl(scope: PRIVATE, maxAge: SHORT)
 
   """
     Get custom price schema
@@ -20,7 +20,8 @@ type Mutation {
   """
     Update customSessionKeys in Session
   """
-  updateCustomSessionKeys(
-    sessionData: CustomSessionInput!
-  ): CustomSessionKeyResponse @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
+  selectOrderConfiguration(orderConfig: String): OrderConfigurationResponse @cacheControl(scope: PRIVATE, maxAge: SHORT)
+#  updateCustomSessionKeys(
+#    sessionData: CustomSessionInput!
+#  ): CustomSessionKeyResponse @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
 }

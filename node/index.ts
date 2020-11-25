@@ -1,6 +1,6 @@
 import "./globals";
 
-import { LRUCache, Service } from "@vtex/api";
+import { LRUCache, RecorderState, Service } from "@vtex/api";
 
 import { Clients } from "./clients";
 // import { dataSources } from './dataSources'
@@ -19,7 +19,7 @@ const segmentCache = new LRUCache<string, any>({ max: MAX_SEGMENT_CACHE });
 // const catalogCache = new LRUCache<string, any>({max: 3000})
 const messagesCache = new LRUCache<string, any>({ max: 3000 });
 
-export default new Service<Clients, void, CustomContext>({
+export default new Service<Clients, RecorderState, CustomContext>({
   clients: {
     implementation: Clients,
     options: {

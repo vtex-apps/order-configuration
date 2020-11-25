@@ -10,7 +10,7 @@
     "messages": "1.x",
     "store": "0.x",
     "react": "3.x",
-    "node": "4.x",
+    "node": "6.x",
     "docs": "0.x"
   },
   "mustUpdateAt": "2021-07-15",
@@ -26,10 +26,20 @@
   },
   "policies": [
     {
+      "name": "ADMIN_DS"
+    },
+    {
       "name": "outbound-access",
       "attrs": {
         "host": "portal.vtexcommercestable.com.br",
         "path": "/api/sessions/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "api.vtex.com",
+        "path": "/*"
       }
     }
   ],
