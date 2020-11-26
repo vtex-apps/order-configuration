@@ -34,20 +34,6 @@ export const FormHandler: FC<{
       dispatchSubmitAction({ type: 'SET_LOADING' })
 
       try {
-        await fetch('/api/sessions/', {
-          method: 'POST',
-          body: JSON.stringify({
-            "public": {
-              "customSessionKeys": {
-                "value": JSON.stringify(data)
-              }
-            }
-          }),
-          credentials: 'same-origin',
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8'
-          }
-        })
 
         await setOrderFormCustomData({
           variables: {
