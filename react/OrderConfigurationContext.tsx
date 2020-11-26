@@ -55,7 +55,7 @@ export const reducer = (state: State, action: Action) => {
         ...state,
         modal: {
           ...state.modal,
-          isOpen: action.args.isModalOpen
+          isOpen: action.args.isModalOpen,
         },
       }
     }
@@ -64,8 +64,8 @@ export const reducer = (state: State, action: Action) => {
         ...state,
         modal: {
           ...state.modal,
-          isOpen: action.args.isModalOpen
-        }
+          isOpen: action.args.isModalOpen,
+        },
       }
     }
     default:

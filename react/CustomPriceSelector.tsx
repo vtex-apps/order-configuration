@@ -1,10 +1,10 @@
 import React from 'react'
 import { useQuery } from 'react-apollo'
-import { omit, pathOr } from 'ramda'
+import { pathOr } from 'ramda'
 import { useCssHandles } from 'vtex.css-handles'
 
-import getCustomSessionKeys from './queries/getCustomSessionKeys.graphql'
-import getProfile from './queries/getProfile.graphql'
+import CUSTOM_SESSION_KEYS_QUERY from './queries/customSessionKeys.graphql'
+import PROFILE_QUERY from './queries/profile.graphql'
 import { OrderConfigurationContextProvider } from './OrderConfigurationContext'
 import { FormField } from './typings/FormProps'
 
@@ -16,14 +16,14 @@ type Props = {
 }
 
 const CustomPriceSelector: StorefrontFunctionComponent<Props> = props => {
-  const { data: customSessionData, loading: customSessionLoading } = useQuery(
-    getCustomSessionKeys,
+  const { data: customSessionKeys, loading: customSessionLoading } = useQuery(
+    CUSTOM_SESSION_KEYS_QUERY,
     {
       ssr: false,
     }
   )
 
-  const { data: profileData, loading: profileLoading } = useQuery(getProfile)
+  const { data: profileData, loading: profileLoading } = useQuery(PROFILE_QUERY)
 
   const handles = useCssHandles(CSS_HANDLES)
 
@@ -35,15 +35,8 @@ const CustomPriceSelector: StorefrontFunctionComponent<Props> = props => {
     )
   }
 
-  const selectedValues = omit(
-    ['email'],
-    JSON.parse(
-      pathOr(
-        '{}',
-        ['getCustomSessionKeys', 'customSessionKeys'],
-        customSessionData
-      )
-    )
+  const selectedValues = JSON.parse(
+    pathOr('{}', ['customSessionKeys'], customSessionKeys)
   )
 
   return (
@@ -114,7 +107,15 @@ CustomPriceSelector.schema = {
             title: 'admin/editor.custom-price-selector.formFields.format',
             type: 'string',
             enum: ['', 'email', 'date-time', 'hostname', 'ipv4', 'ipv6', 'uri'],
-            enumNames: ['Not specified', 'Email', 'Date/time in ISO format', 'Internet host name', 'IPv4 address', 'IPv6 address', 'A universal resource identifier'],
+            enumNames: [
+              'Not specified',
+              'Email',
+              'Date/time in ISO format',
+              'Internet host name',
+              'IPv4 address',
+              'IPv6 address',
+              'A universal resource identifier',
+            ],
           },
           options: {
             title: 'admin/editor.custom-price-selector.formFields.options',

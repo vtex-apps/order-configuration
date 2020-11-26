@@ -1,8 +1,11 @@
-import { VTEX_SESSION } from '../session/service'
 
 interface Args {
   orderConfig: string;
 }
+
+const CUSTOM_SESSION_KEY = "customSessionKeys";
+const CLIENT_ACRONYM = "CL";
+const VTEX_SESSION = "vtex_session";
 
 export const selectOrderConfiguration = async (
   _: any,
@@ -10,19 +13,23 @@ export const selectOrderConfiguration = async (
   ctx: Context
 ) => {
   const {
-    clients: { masterdata, customSession },
+    clients: { masterdata, session },
     cookies
   } = ctx;
 
   const sessionCookie = cookies.get(VTEX_SESSION);
-  const { sessionData } = await customSession.getSession(sessionCookie!, [
+  const { sessionData } = await session.getSession(sessionCookie!, [
     "profile.email"
   ]);
+
+  const resp = await session.updateSession(CUSTOM_SESSION_KEY, orderConfig, [ "profile.email"],  sessionCookie)
+
+  console.log('heeere', { resp })
 
   const { value: userEmail } = sessionData.namespaces?.profile?.email;
 
   const [{ id }] = await masterdata.searchDocuments({
-    dataEntity: "CL",
+    dataEntity: CLIENT_ACRONYM,
     schema: "v1",
     fields: ["id"],
     pagination: {

@@ -1,4 +1,4 @@
-query Profile($customFields: String) {
+query profileQuery ($customFields: String) {
   profile (customFields: $customFields){
     email
   }
