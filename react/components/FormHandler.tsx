@@ -11,7 +11,9 @@ import { useCssHandles } from 'vtex.css-handles'
 import { FormProps } from '../typings/FormProps'
 import { useSubmitReducer, SubmitContext } from '../logic/formState'
 
-import SetOrderFormCustomDataMutation from '../mutations/setOrderFormCustomData.graphql'
+import SET_ORDER_FORM_CUSTOM_DATA_MUTATION from '../mutations/setOrderFormCustomData.graphql'
+import SELECT_ORDER_CONFIG_MUTATION from '../mutations/selectOrderConfig.graphql'
+
 const CSS_HANDLES = ['orderConfigFormWrapper'] as const
 
 export const FormHandler: FC<{
@@ -20,7 +22,8 @@ export const FormHandler: FC<{
   email: string | null
   onSuccessfulSubmit: () => void
 }> = props => {
-  const [setOrderFormCustomData] = useMutation(SetOrderFormCustomDataMutation)
+  const [setOrderFormCustomData] = useMutation(SET_ORDER_FORM_CUSTOM_DATA_MUTATION)
+  const [selectOrderConfig] = useMutation(SELECT_ORDER_CONFIG_MUTATION)
   const [submitState, dispatchSubmitAction] = useSubmitReducer()
 
   const onSubmit = useCallback(
@@ -54,9 +57,11 @@ export const FormHandler: FC<{
           }
         })
 
-        console.log(JSON.stringify(data))
-
-        // await selectOrderConfiguration({...})
+        await selectOrderConfig({
+          variables: {
+            orderConfig: JSON.stringify(data),
+          }
+        })
 
         dispatchSubmitAction({ type: 'SET_SUCCESS' })
         const { onSuccessfulSubmit } = props

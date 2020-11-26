@@ -1,0 +1,5 @@
+mutation selectOrderConfig($orderConfig: String!){
+  selectOrderConfiguration(orderConfig: $orderConfig) {
+    orderConfig
+  }
+}

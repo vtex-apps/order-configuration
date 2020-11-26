@@ -1,9 +1,3 @@
-// const ENVIRONMENTS = {
-//   PRODUCTION: "vtexcommercestable",
-//   DEV: "vtexcommercebeta"
-// };
-
-// import { VTEX_SESSION } from "../session/service";
 import { VTEX_SESSION } from '../session/service'
 
 interface Args {
@@ -19,7 +13,6 @@ export const selectOrderConfiguration = async (
     clients: { masterdata, customSession },
     cookies
   } = ctx;
-
 
   const sessionCookie = cookies.get(VTEX_SESSION);
   const { sessionData } = await customSession.getSession(sessionCookie!, [
@@ -39,16 +32,12 @@ export const selectOrderConfiguration = async (
     where: `email=${userEmail}`
   });
 
-  // const res = await masterdata.getSchema({ schema: 'v1', dataEntity: 'CL' })
-  //
-  const res = await masterdata.updatePartialDocument({
+  await masterdata.updatePartialDocument({
     dataEntity: "CL",
     schema: "v1",
     fields: { orderConfig },
     id
   });
-
-  console.log({ res, id });
 
   return {
     orderConfig
