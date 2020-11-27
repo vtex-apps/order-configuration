@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useContext } from 'react'
+import React, { createContext, useReducer, useContext, FC } from 'react'
 import { FormField } from './typings/FormProps'
 import { CustomSessionData } from './typings/global'
 
@@ -7,33 +7,32 @@ const OrderConfigurationDispatchContext = createContext<Dispatch | undefined>(
   undefined
 )
 
-type State = {
+interface State {
   isLoading: boolean
   modal: {
     isOpen: boolean
   }
   selectedValues: CustomSessionData
-  profileData: ProfileData
   formFields: FormField[]
 }
 
 type Dispatch = (action: Action) => void
 
-type SetLoadingAction = {
+interface SetLoadingAction {
   type: 'SET_LOADING'
   args: {
     isLoading: boolean
   }
 }
 
-type SetModalOpenAction = {
+interface SetModalOpenAction {
   type: 'SET_MODAL_OPEN'
   args: {
     isModalOpen: boolean
   }
 }
 
-type SetModalClosedAction = {
+interface SetModalClosedAction {
   type: 'SET_MODAL_CLOSED'
   args: {
     isModalOpen: boolean
@@ -73,28 +72,18 @@ export const reducer = (state: State, action: Action) => {
   }
 }
 
-type Props = {
+interface Props {
   selectedValues: CustomSessionData
-  profileData: ProfileData
-  children: any
   formFields: FormField[]
 }
 
-type ProfileData = {
-  profile: {
-    email: string
-  }
-}
-
-export const OrderConfigurationContextProvider = ({
+export const OrderConfigurationContextProvider: FC<Props> = ({
   selectedValues,
-  profileData,
   formFields,
   children,
-}: Props) => {
+}) => {
   const initialState = {
     selectedValues,
-    profileData,
     formFields,
     isLoading: true,
     modal: {

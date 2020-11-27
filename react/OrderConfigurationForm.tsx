@@ -15,9 +15,9 @@ import { ToastRenderProps } from './typings/global'
 const OrderConfigurationForm: StorefrontFunctionComponent<
   CustomPriceSelectorProps
 > = props => {
-  const { selectedValues, profileData, formFields } = useOrderConfiguration()
+  console.log('heeere')
+  const { selectedValues, formFields } = useOrderConfiguration()
 
-  const email = pathOr(null, ['profile', 'email'], profileData)
   let customPriceSchema: {
     type: string
     properties: any
@@ -59,7 +59,7 @@ const OrderConfigurationForm: StorefrontFunctionComponent<
     }
 
     let required: string[] = customPriceSchema.required
-    if (pathOr<boolean>(false, ['required'], formField) == true) {
+    if (pathOr<boolean>(false, ['required'], formField)) {
       required = [...required, formField.name]
     }
     customPriceSchema = mergeRight(customPriceSchema, {
@@ -121,7 +121,6 @@ const OrderConfigurationForm: StorefrontFunctionComponent<
             <FormHandler
               schema={customPriceSchema}
               formProps={props}
-              email={email}
               onSuccessfulSubmit={onSuccessfulSubmit}
             >
               <ObjectMapper
@@ -138,7 +137,6 @@ const OrderConfigurationForm: StorefrontFunctionComponent<
           <FormHandler
             schema={customPriceSchema}
             formProps={props}
-            email={email}
             onSuccessfulSubmit={onSuccessfulSubmit}
           >
             {props.children}

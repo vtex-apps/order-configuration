@@ -11,7 +11,7 @@ import { useCssHandles } from 'vtex.css-handles'
 import { FormProps } from '../typings/FormProps'
 import { useSubmitReducer, SubmitContext } from '../logic/formState'
 
-import SET_ORDER_FORM_CUSTOM_DATA_MUTATION from '../mutations/setOrderFormCustomData.graphql'
+// import SET_ORDER_FORM_CUSTOM_DATA_MUTATION from '../mutations/setOrderFormCustomData.graphql'
 import SELECT_ORDER_CONFIG_MUTATION from '../mutations/selectOrderConfig.graphql'
 
 const CSS_HANDLES = ['orderConfigFormWrapper'] as const
@@ -19,10 +19,9 @@ const CSS_HANDLES = ['orderConfigFormWrapper'] as const
 export const FormHandler: FC<{
   schema: JSONSchemaType
   formProps: FormProps
-  email: string | null
   onSuccessfulSubmit: () => void
 }> = props => {
-  const [setOrderFormCustomData] = useMutation(SET_ORDER_FORM_CUSTOM_DATA_MUTATION)
+  // const [setOrderFormCustomData] = useMutation(SET_ORDER_FORM_CUSTOM_DATA_MUTATION)
   const [selectOrderConfig] = useMutation(SELECT_ORDER_CONFIG_MUTATION)
   const [submitState, dispatchSubmitAction] = useSubmitReducer()
 
@@ -34,14 +33,13 @@ export const FormHandler: FC<{
       dispatchSubmitAction({ type: 'SET_LOADING' })
 
       try {
-
-        await setOrderFormCustomData({
-          variables: {
-            appId: 'orderConfig',
-            field: 'values',
-            value: JSON.stringify(data),
-          }
-        })
+        // await setOrderFormCustomData({
+        //   variables: {
+        //     appId: 'orderConfig',
+        //     field: 'values',
+        //     value: JSON.stringify(data),
+        //   }
+        // })
 
         await selectOrderConfig({
           variables: {

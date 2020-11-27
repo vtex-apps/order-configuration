@@ -4,15 +4,13 @@ import { pathOr } from 'ramda'
 import { useCssHandles } from 'vtex.css-handles'
 
 import CUSTOM_SESSION_KEYS_QUERY from './queries/customSessionKeys.graphql'
-import PROFILE_QUERY from './queries/profile.graphql'
 import { OrderConfigurationContextProvider } from './OrderConfigurationContext'
 import { FormField } from './typings/FormProps'
 
 const CSS_HANDLES = ['loader', 'wrapper'] as const
 
-type Props = {
+interface Props {
   formFields: FormField[]
-  children: any
 }
 
 const CustomPriceSelector: StorefrontFunctionComponent<Props> = props => {
@@ -23,11 +21,9 @@ const CustomPriceSelector: StorefrontFunctionComponent<Props> = props => {
     }
   )
 
-  const { data: profileData, loading: profileLoading } = useQuery(PROFILE_QUERY)
-
   const handles = useCssHandles(CSS_HANDLES)
 
-  if (profileLoading || customSessionLoading) {
+  if (customSessionLoading) {
     return (
       <div className={`h-100 flex items-center ${handles.loader}`}>
         Loading...
@@ -42,7 +38,6 @@ const CustomPriceSelector: StorefrontFunctionComponent<Props> = props => {
   return (
     <OrderConfigurationContextProvider
       selectedValues={selectedValues}
-      profileData={profileData}
       formFields={props.formFields}
     >
       <div className={`mw9 center flex flex-column ${handles.wrapper}`}>

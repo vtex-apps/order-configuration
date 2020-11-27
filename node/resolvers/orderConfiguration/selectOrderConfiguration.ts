@@ -1,4 +1,3 @@
-
 interface Args {
   orderConfig: string;
 }
@@ -13,7 +12,7 @@ export const selectOrderConfiguration = async (
   ctx: Context
 ) => {
   const {
-    clients: { masterdata, session },
+    clients: { masterdata, session, storeGraphQL },
     cookies
   } = ctx;
 
@@ -22,9 +21,16 @@ export const selectOrderConfiguration = async (
     "profile.email"
   ]);
 
-  const resp = await session.updateSession(CUSTOM_SESSION_KEY, orderConfig, [ "profile.email"],  sessionCookie)
+  await session.updateSession(CUSTOM_SESSION_KEY, orderConfig, ["profile.email"], sessionCookie)
 
-  console.log('heeere', { resp })
+  try {
+    const resp = await storeGraphQL.setOrderFormCustomData(orderConfig)
+
+    console.log({ resp })
+  } catch (e) {
+    console.log(e)
+  }
+
 
   const { value: userEmail } = sessionData.namespaces?.profile?.email;
 
