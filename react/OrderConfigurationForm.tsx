@@ -1,9 +1,9 @@
 import React from 'react'
-import { contains, has, mergeRight, pathOr } from 'ramda'
+import { contains, pathOr } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { UITypes } from 'react-hook-form-jsonschema'
 
-import { CustomPriceSelectorProps } from './typings/FormProps'
+import { CustomPriceSelectorProps, FormField } from './typings/FormProps'
 import { TOAST_DURATION_MS } from './utils/toast'
 import { ObjectMapper } from './components/Object'
 import { FormHandler } from './components/FormHandler'
@@ -12,99 +12,78 @@ import { useOrderConfiguration } from './OrderConfigurationContext'
 import { ToastConsumer } from 'vtex.styleguide'
 import { ToastRenderProps } from './typings/global'
 
-const OrderConfigurationForm: StorefrontFunctionComponent<
-  CustomPriceSelectorProps
-> = props => {
-  console.log('heeere')
+interface CustomPriceSchema {
+  type: string
+  properties: any
+  required: string[]
+}
+
+interface FormFieldOption {
+  value: string
+}
+
+const UI_TYPES = {
+  text: UITypes.input,
+  select: UITypes.select,
+  radio: UITypes.radio,
+  checkbox: UITypes.checkbox,
+}
+
+const generatePriceSchema = (formFields: FormField[]) =>
+  formFields.reduce(
+    (acc: CustomPriceSchema, formField) => {
+      const hasEnum = contains(pathOr('text', ['fieldType'], formField), [
+        'select',
+        'radio',
+      ])
+
+      const fieldProps = {
+        type: formField.type || 'string',
+        title: formField.label || formField.name,
+        enum: hasEnum
+          ? (formField.options || []).map(
+              (option: FormFieldOption) => option.value
+            )
+          : undefined,
+        format: formField.format ?? '',
+      }
+
+      return {
+        ...acc,
+        properties: {
+          ...acc.properties,
+          [formField.name]: fieldProps,
+        },
+        required: formField.required
+          ? [...acc.required, formField.name]
+          : acc.required,
+      }
+    },
+    {
+      type: 'object',
+      properties: {},
+      required: [],
+    }
+  )
+
+const generateUISchema = (formFields: FormField[]) => {
+  const properties = formFields.reduce((acc: object, formField) => {
+    const fieldType: keyof typeof UI_TYPES = formField.fieldType || 'text'
+    return {
+      ...acc,
+      [formField.name]: {
+        type: UI_TYPES[fieldType],
+      },
+    }
+  }, {})
+  return { type: UITypes.default, properties }
+}
+
+const OrderConfigurationForm: StorefrontFunctionComponent<CustomPriceSelectorProps> = props => {
   const { selectedValues, formFields } = useOrderConfiguration()
 
-  let customPriceSchema: {
-    type: string
-    properties: any
-    required: string[]
-  } = {
-    type: 'object',
-    properties: {},
-    required: [],
-  }
-
-  let UISchema = {
-    type: UITypes.default,
-    properties: {},
-  }
-  formFields.map(formField => {
-    let fieldProps: any = {
-      type: pathOr('string', ['type'], formField),
-      title: pathOr(formField.name, ['label'], formField),
-    }
-    if (
-      contains(pathOr('text', ['fieldType'], formField), ['select', 'radio'])
-    ) {
-      fieldProps = {
-        ...fieldProps,
-        enum: pathOr([], ['options'], formField).map(
-          (option: { value: string }) => option.value
-        ),
-      }
-    }
-    if (has('format', formField)) {
-      fieldProps = {
-        ...fieldProps,
-        format: pathOr('', ['format'], formField),
-      }
-    }
-    const properties = {
-      ...customPriceSchema.properties,
-      [formField.name]: fieldProps,
-    }
-
-    let required: string[] = customPriceSchema.required
-    if (pathOr<boolean>(false, ['required'], formField)) {
-      required = [...required, formField.name]
-    }
-    customPriceSchema = mergeRight(customPriceSchema, {
-      properties: properties,
-      required: required,
-    })
-
-    let uiProps
-    switch (
-      pathOr<'text' | 'select' | 'radio' | 'checkbox'>(
-        'text',
-        ['fieldType'],
-        formField
-      )
-    ) {
-      case 'select':
-        uiProps = {
-          type: UITypes.select,
-        }
-        break
-      case 'radio':
-        uiProps = {
-          type: UITypes.radio,
-        }
-        break
-      case 'checkbox':
-        uiProps = {
-          type: UITypes.checkbox,
-        }
-        break
-      case 'text':
-      default:
-        uiProps = {
-          type: UITypes.input,
-        }
-        break
-    }
-    const UISchemaProps = {
-      ...UISchema.properties,
-      [formField.name]: uiProps,
-    }
-    UISchema = mergeRight(UISchema, {
-      properties: UISchemaProps,
-    })
-  })
+  const customPriceSchema: CustomPriceSchema = generatePriceSchema(formFields)
+  const UISchema = generateUISchema(formFields)
 
   return (
     <ToastConsumer>

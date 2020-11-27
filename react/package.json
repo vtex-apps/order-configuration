@@ -6,8 +6,8 @@
     "lint": "tsc --noEmit && eslint --ext ts,tsx ."
   },
   "dependencies": {
-    "apollo-client": "^2.6.8",
     "@vtex/css-handles": "^1.0.0",
+    "apollo-client": "^2.6.8",
     "classnames": "^2.2.6",
     "ramda": "^0.26.1",
     "react": "^16.8.3",
