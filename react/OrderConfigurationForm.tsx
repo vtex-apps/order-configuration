@@ -14,7 +14,7 @@ import { ToastRenderProps } from './typings/global'
 
 interface CustomPriceSchema {
   type: string
-  properties: any
+  properties: Record<string, object>
   required: string[]
 }
 
