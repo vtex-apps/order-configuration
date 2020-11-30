@@ -30,8 +30,6 @@ export const selectOrderConfiguration = async (
     sessionCookie
   );
 
-  console.log(checkout);
-
   await checkout.setSingleCustomData(getOrderFormIdFromCookie(cookies)!, {
     appId: "orderConfig",
     appFieldName: "values",
