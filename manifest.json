@@ -29,9 +29,6 @@
       "name": "ADMIN_DS"
     },
     {
-      "name": "vtex.store-graphql:resolve-graphql"
-    },
-    {
       "name": "outbound-access",
       "attrs": {
         "host": "portal.vtexcommercestable.com.br",
