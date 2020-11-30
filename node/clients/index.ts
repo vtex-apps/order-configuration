@@ -1,7 +1,7 @@
 import { IOClients } from "@vtex/api";
+import { Checkout } from "@vtex/clients";
 
 import { CustomPrice } from "./customPrice";
-import { Checkout } from "./checkout";
 
 // Extend the default IOClients implementation with our own custom clients.
 export class Clients extends IOClients {

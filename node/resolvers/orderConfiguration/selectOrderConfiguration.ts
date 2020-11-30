@@ -30,11 +30,13 @@ export const selectOrderConfiguration = async (
     sessionCookie
   );
 
-  await checkout.setOrderFormCustomData(
-    getOrderFormIdFromCookie(cookies)!,
-    "orderConfig",
-    { values: orderConfig }
-  );
+  console.log(checkout);
+
+  await checkout.setSingleCustomData(getOrderFormIdFromCookie(cookies)!, {
+    appId: "orderConfig",
+    appFieldName: "values",
+    value: JSON.stringify(orderConfig)
+  });
 
   const { value: userEmail } = sessionData.namespaces?.profile?.email;
 

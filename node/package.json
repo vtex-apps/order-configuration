@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@vtex/clients": "^1.0.4",
     "axios": "^0.19.2",
     "co-body": "^6.0.0",
     "cookie": "^0.4.1",
