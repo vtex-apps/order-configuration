@@ -13,7 +13,7 @@ type Query {
 
 type Mutation {
   """
-    Update customSessionKeys in Session
+    Select a order configuration
   """
   selectOrderConfiguration(orderConfig: String!): OrderConfigurationResponse @cacheControl(scope: PRIVATE, maxAge: SHORT)
 }
