@@ -29,24 +29,25 @@ export const FormHandler: FC<{
     dispatchSubmitAction({ type: 'SET_LOADING' })
 
     try {
-
       await selectOrderConfig({
         variables: {
           orderConfig: JSON.stringify(data),
-        }
+        },
       })
 
       dispatchSubmitAction({ type: 'SET_SUCCESS' })
       const { onSuccessfulSubmit } = props
       onSuccessfulSubmit()
     } catch (e) {
-      if (!e.graphQLErrors) return dispatchSubmitAction({ type: 'SET_SERVER_INTERNAL_ERROR' })
+      if (!e.graphQLErrors)
+        return dispatchSubmitAction({ type: 'SET_SERVER_INTERNAL_ERROR' })
 
       for (const graphqlError of e.graphQLErrors as GraphQLError[]) {
         dispatchSubmitAction({
-          type: graphqlError.extensions?.exception?.name === 'UserInputError' ?
-            'SET_USER_INPUT_ERROR' :
-            'SET_SERVER_INTERNAL_ERROR'
+          type:
+            graphqlError.extensions?.exception?.name === 'UserInputError'
+              ? 'SET_USER_INPUT_ERROR'
+              : 'SET_SERVER_INTERNAL_ERROR',
         })
       }
     }
@@ -57,14 +58,9 @@ export const FormHandler: FC<{
   const handles = useCssHandles(CSS_HANDLES)
 
   return (
-    <FormContext
-      schema={props.schema}
-      onSubmit={onSubmit}
-    >
+    <FormContext schema={props.schema} onSubmit={onSubmit}>
       <SubmitContext.Provider value={submitState}>
-        <div className={handles.orderConfigFormWrapper}>
-          {props.children}
-        </div>
+        <div className={handles.orderConfigFormWrapper}>{props.children}</div>
       </SubmitContext.Provider>
     </FormContext>
   )

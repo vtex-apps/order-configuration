@@ -1,6 +1,6 @@
-import {ApolloError} from 'apollo-client'
-import {GraphQLError} from 'graphql'
-import {ErrorTypes} from 'react-hook-form-jsonschema'
+import { ApolloError } from 'apollo-client'
+import { GraphQLError } from 'graphql'
+import { ErrorTypes } from 'react-hook-form-jsonschema'
 
 const concatFormPointer = (currPath: string, next: string) => {
   return `${currPath}/${next}`
@@ -31,10 +31,7 @@ const concatErrors = (
   return errors
 }
 
-const filterSchemaErrors = (
-  acc: SchemaError[],
-  message: GraphQLError
-) => {
+const filterSchemaErrors = (acc: SchemaError[], message: GraphQLError) => {
   if (message?.extensions?.exception?.response?.data?.errors) {
     return acc.concat(
       message.extensions.exception.response.data.errors.reduce(concatErrors, [])
@@ -64,7 +61,7 @@ const evaluateSchemaRequiredErrors = (
     nodeName
   )
   createOrPushError(data.nodes, pointer, ErrorTypes.required)
-  return {nodes: data.nodes, schemaId: data.schemaId}
+  return { nodes: data.nodes, schemaId: data.schemaId }
 }
 
 const evaluateSchemaErrors = (
@@ -112,6 +109,6 @@ export const parseSchemaError = (
   }
 
   return error.graphQLErrors
-  .reduce(filterSchemaErrors, [])
-  .reduce(evaluateSchemaErrors, {})
+    .reduce(filterSchemaErrors, [])
+    .reduce(evaluateSchemaErrors, {})
 }

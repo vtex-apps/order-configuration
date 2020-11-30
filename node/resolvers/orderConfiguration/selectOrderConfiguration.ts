@@ -1,3 +1,5 @@
+import { getOrderFormIdFromCookie } from "../../utils";
+
 interface Args {
   orderConfig: string;
 }
@@ -12,7 +14,7 @@ export const selectOrderConfiguration = async (
   ctx: Context
 ) => {
   const {
-    clients: { masterdata, session, storeGraphQL },
+    clients: { masterdata, session, checkout },
     cookies
   } = ctx;
 
@@ -21,16 +23,18 @@ export const selectOrderConfiguration = async (
     "profile.email"
   ]);
 
-  await session.updateSession(CUSTOM_SESSION_KEY, orderConfig, ["profile.email"], sessionCookie)
+  await session.updateSession(
+    CUSTOM_SESSION_KEY,
+    orderConfig,
+    [],
+    sessionCookie
+  );
 
-  try {
-    const resp = await storeGraphQL.setOrderFormCustomData(orderConfig)
-
-    console.log({ resp })
-  } catch (e) {
-    console.log(e)
-  }
-
+  await checkout.setOrderFormCustomData(
+    getOrderFormIdFromCookie(cookies)!,
+    "orderConfig",
+    { values: orderConfig }
+  );
 
   const { value: userEmail } = sessionData.namespaces?.profile?.email;
 

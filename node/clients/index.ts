@@ -1,7 +1,7 @@
 import { IOClients } from "@vtex/api";
 
 import { CustomPrice } from "./customPrice";
-import { StoreGraphQL } from "./storeGraphQL/storeGraphQL";
+import { Checkout } from "./checkout";
 
 // Extend the default IOClients implementation with our own custom clients.
 export class Clients extends IOClients {
@@ -9,7 +9,7 @@ export class Clients extends IOClients {
     return this.getOrSet("customPrice", CustomPrice);
   }
 
-  public get storeGraphQL() {
-    return this.getOrSet("storeGraphQL", StoreGraphQL);
+  public get checkout() {
+    return this.getOrSet("checkout", Checkout);
   }
 }

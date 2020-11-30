@@ -49,7 +49,7 @@ function reducer(
   }
 }
 
-export type SubmittingState = {
+export interface SubmittingState {
   loading: boolean
   userInputError: boolean | null
   serverError: boolean | null
