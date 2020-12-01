@@ -6,7 +6,7 @@ import { IOMessage } from 'vtex.native-types'
 
 import { SubmitContext } from './logic/formState'
 
-export type FormSubmitProps = {
+export interface FormSubmitProps {
   label?: string
 }
 

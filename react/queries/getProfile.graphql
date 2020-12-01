@@ -1,5 +1,0 @@
-query Profile($customFields: String) {
-  profile (customFields: $customFields){
-    email
-  }
-}

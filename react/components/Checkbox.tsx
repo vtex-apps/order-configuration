@@ -6,7 +6,7 @@ import { BaseInputProps } from '../typings/InputProps'
 
 export const CheckboxInput: FC<BaseInputProps> = props => {
   const checkboxObject = useCheckbox(props.pointer)
-  return <Checkbox checkboxObject={checkboxObject} label={props.label} />
+  return <Checkbox checkboxObject={checkboxObject} label={props.label}/>
 }
 
 export const Checkbox: FC<{
