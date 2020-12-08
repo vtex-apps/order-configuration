@@ -1,13 +1,10 @@
-import { queries as customPriceQueries } from "./customPrices";
-import { queries as sessionQueries } from "./session";
-import { mutations as orderConfigurationMutations } from "./orderConfiguration";
+import { mutations as orderConfigurationMutations, queries as orderConfigurationQueries } from "./orderConfiguration";
 
 export const resolvers = {
   Mutation: {
     ...orderConfigurationMutations
   },
   Query: {
-    ...sessionQueries,
-    ...customPriceQueries
+    ...orderConfigurationQueries,
   }
 };

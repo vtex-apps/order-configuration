@@ -1,11 +1,11 @@
 import React from 'react'
 import { useQuery } from 'react-apollo'
-import { pathOr } from 'ramda'
 import { useCssHandles } from 'vtex.css-handles'
 
-import CUSTOM_SESSION_KEYS_QUERY from './queries/customSessionKeys.graphql'
+import getOrderConfiguration from './queries/getOrderConfiguration.graphql'
 import { OrderConfigurationContextProvider } from './OrderConfigurationContext'
 import { FormField } from './typings/FormProps'
+import { fromFieldArrayFormat } from './logic/fromFieldArrayFormat'
 
 const CSS_HANDLES = ['loader', 'wrapper'] as const
 
@@ -13,17 +13,16 @@ interface Props {
   formFields: FormField[]
 }
 
-const CustomPriceSelector: StorefrontFunctionComponent<Props> = props => {
-  const { data: customSessionKeys, loading: customSessionLoading } = useQuery(
-    CUSTOM_SESSION_KEYS_QUERY,
-    {
-      ssr: false,
-    }
-  )
+const OrderConfigurationSelector: StorefrontFunctionComponent<Props> = props => {
+  const { data, loading } = useQuery(getOrderConfiguration, {
+    ssr: false,
+  })
+  const orderConfigurationFields = data?.getOrderConfiguration?.fields
+  const orderConfigurationLoading = loading
 
   const handles = useCssHandles(CSS_HANDLES)
 
-  if (customSessionLoading) {
+  if (orderConfigurationLoading) {
     return (
       <div className={`h-100 flex items-center ${handles.loader}`}>
         Loading...
@@ -31,9 +30,9 @@ const CustomPriceSelector: StorefrontFunctionComponent<Props> = props => {
     )
   }
 
-  const selectedValues = JSON.parse(
-    pathOr('{}', ['customSessionKeys'], customSessionKeys)
-  )
+  const selectedValues = orderConfigurationFields
+    ? fromFieldArrayFormat(orderConfigurationFields)
+    : {}
 
   return (
     <OrderConfigurationContextProvider
@@ -47,7 +46,7 @@ const CustomPriceSelector: StorefrontFunctionComponent<Props> = props => {
   )
 }
 
-CustomPriceSelector.schema = {
+OrderConfigurationSelector.schema = {
   title: 'admin/editor.custom-price-selector.title',
   description: 'admin/editor.custom-price-selector.description',
   type: 'object',
@@ -140,4 +139,4 @@ CustomPriceSelector.schema = {
   },
 }
 
-export default CustomPriceSelector
+export default OrderConfigurationSelector

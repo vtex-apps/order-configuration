@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useContext, FC } from 'react'
 import { FormField } from './typings/FormProps'
-import { CustomSessionData } from './typings/global'
+import { OrderConfiguration } from './typings/global'
 
 const OrderConfigurationContext = createContext<State | undefined>(undefined)
 const OrderConfigurationDispatchContext = createContext<Dispatch | undefined>(
@@ -12,7 +12,7 @@ interface State {
   modal: {
     isOpen: boolean
   }
-  selectedValues: CustomSessionData
+  selectedValues: OrderConfiguration
   formFields: FormField[]
 }
 
@@ -73,7 +73,7 @@ export const reducer = (state: State, action: Action) => {
 }
 
 interface Props {
-  selectedValues: CustomSessionData
+  selectedValues: OrderConfiguration
   formFields: FormField[]
 }
 

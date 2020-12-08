@@ -11,7 +11,8 @@ import { useCssHandles } from 'vtex.css-handles'
 import { FormProps } from '../typings/FormProps'
 import { useSubmitReducer, SubmitContext } from '../logic/formState'
 
-import SELECT_ORDER_CONFIG_MUTATION from '../mutations/selectOrderConfig.graphql'
+import SELECT_ORDER_CONFIG_MUTATION from '../mutations/saveOrderConfig.graphql'
+import { toFieldArrayFormat } from '../logic/toFieldArrayFormat'
 
 const CSS_HANDLES = ['orderConfigFormWrapper'] as const
 
@@ -20,7 +21,7 @@ export const FormHandler: FC<{
   formProps: FormProps
   onSuccessfulSubmit: () => void
 }> = props => {
-  const [selectOrderConfig] = useMutation(SELECT_ORDER_CONFIG_MUTATION)
+  const [saveOrderConfig] = useMutation(SELECT_ORDER_CONFIG_MUTATION)
   const [submitState, dispatchSubmitAction] = useSubmitReducer()
 
   const onSubmit = async ({ data, methods, event }: OnSubmitParameters) => {
@@ -29,9 +30,11 @@ export const FormHandler: FC<{
     dispatchSubmitAction({ type: 'SET_LOADING' })
 
     try {
-      await selectOrderConfig({
+      await saveOrderConfig({
         variables: {
-          orderConfig: JSON.stringify(data),
+          orderConfig: {
+            fields: toFieldArrayFormat(data),
+          },
         },
       })
 
