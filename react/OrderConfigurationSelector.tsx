@@ -2,7 +2,7 @@ import React from 'react'
 import { useQuery } from 'react-apollo'
 import { useCssHandles } from 'vtex.css-handles'
 
-import getOrderConfiguration from './queries/getOrderConfiguration.graphql'
+import orderConfiguration from './queries/orderConfiguration.graphql'
 import { OrderConfigurationContextProvider } from './OrderConfigurationContext'
 import { FormField } from './typings/FormProps'
 import { fromFieldArrayFormat } from './logic/fromFieldArrayFormat'
@@ -14,10 +14,10 @@ interface Props {
 }
 
 const OrderConfigurationSelector: StorefrontFunctionComponent<Props> = props => {
-  const { data, loading } = useQuery(getOrderConfiguration, {
+  const { data, loading } = useQuery(orderConfiguration, {
     ssr: false,
   })
-  const orderConfigurationFields = data?.getOrderConfiguration?.fields
+  const orderConfigurationFields = data?.orderConfiguration?.fields
   const orderConfigurationLoading = loading
 
   const handles = useCssHandles(CSS_HANDLES)

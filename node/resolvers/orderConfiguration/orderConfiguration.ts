@@ -3,7 +3,7 @@ import {RepositoryFactory} from "../../repositories/RepositoryFactory";
 
 export const VTEX_SESSION = "vtex_session";
 
-export const getOrderConfiguration = async (_: any, __: void, ctx: Context) => {
+export const orderConfiguration = async (_: any, __: void, ctx: Context) => {
   const {
     clients: { masterdata, session },
     cookies
@@ -19,7 +19,7 @@ export const getOrderConfiguration = async (_: any, __: void, ctx: Context) => {
   const userEmail = sessionData.namespaces?.profile?.email?.value;
 
   if(!userEmail) {
-    return false;
+    return null;
   }
 
   const client = await clientRepository.findOne({
@@ -27,7 +27,7 @@ export const getOrderConfiguration = async (_: any, __: void, ctx: Context) => {
   });
 
   if(!client) {
-    return false;
+    return null;
   }
 
   const clientId = client.id;

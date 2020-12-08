@@ -1,8 +1,0 @@
-query getOrderConfiguration {
-  getOrderConfiguration @context(provider: "b2bstore.order-configuration") {
-    fields {
-      Key
-      Value
-    }
-  }
-}

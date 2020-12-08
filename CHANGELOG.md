@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Modified
 - CL entity at MasterData no longer persists the order configuration
-- Session no longer contains data about the order configuration
 - Order configuration is now separate from `custom_prices`
 
 ## [2.0.0] - 2020-12-01

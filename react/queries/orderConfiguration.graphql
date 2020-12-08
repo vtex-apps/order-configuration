@@ -1,0 +1,8 @@
+query orderConfiguration {
+  orderConfiguration @context(provider: "b2bstore.order-configuration") {
+    fields {
+      Key
+      Value
+    }
+  }
+}

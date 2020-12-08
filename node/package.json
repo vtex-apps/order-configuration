@@ -15,12 +15,16 @@
     "@types/ramda": "^0.27.11",
     "@vtex/api": "6.37.0",
     "@vtex/tsconfig": "^0.3.0",
+    "mocha": "^8.2.1",
     "tslint": "^5.14.0",
     "tslint-config-vtex": "^2.1.0",
+    "ts-mockito": "^2.6.1",
+    "ts-node": "^9.1.1",
     "typescript": "3.9.7"
   },
   "scripts": {
-    "lint": "tsc --noEmit --pretty && tslint -c tslint.json --fix './**/*.ts'"
+    "lint": "tsc --noEmit --pretty && tslint -c tslint.json --fix './**/*.ts'",
+    "test": "mocha --require ts-node/register \"test/**/*.test.ts\""
   },
   "version": "1.0.0"
 }
