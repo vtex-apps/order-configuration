@@ -17,6 +17,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run: cd react
+    - run: yarn
+    - run: yarn test
+    - run: cd .. && cd node
     - run: yarn
     - run: yarn test
       env:
