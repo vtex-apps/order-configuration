@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.0.0] - 2020-12-08
+### Added
+- Order Configuration now is persistent
+- Data entity `order_configuration` is now required in MasterData
+- Schema `main` in the data entity `order_configuration` is now required
+
+### Modified
+- CL entity at MasterData no longer persists the order configuration
+- Order configuration is now separate from `custom_prices`
+
 ## [2.0.0] - 2020-12-01
 
 ## [1.0.0] - 2020-12-01

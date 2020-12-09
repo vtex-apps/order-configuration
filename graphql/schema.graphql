@@ -1,19 +1,23 @@
 type Query {
 
   """
-  Get customSessionKeys from Session
+  Get orderConfiguration from our backend
   """
-  customSessionKeys: String @cacheControl(scope: PRIVATE, maxAge: SHORT)
+  orderConfiguration: OrderConfig @cacheControl(scope: PRIVATE, maxAge: SHORT)
+}
 
-  """
-    Get custom price schema
-  """
-  customPriceSchema: CustomPriceSchema
+input FieldInput {
+  Key: String!
+  Value: String!
+}
+
+input OrderConfigInput {
+  fields: [FieldInput]
 }
 
 type Mutation {
   """
-    Select a order configuration
+  Save an order configuration
   """
-  selectOrderConfiguration(orderConfig: String!): OrderConfigurationResponse @cacheControl(scope: PRIVATE, maxAge: SHORT)
+  saveOrderConfiguration(orderConfig: OrderConfigInput): Boolean @cacheControl(scope: PRIVATE, maxAge: SHORT)
 }

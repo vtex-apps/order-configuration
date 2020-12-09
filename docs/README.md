@@ -12,13 +12,13 @@ The Order Configuration app, designed for **B2B scenarios**, displays a form res
 
 ![order-configuration-gif](https://user-images.githubusercontent.com/52087100/91925199-e5125200-ecaa-11ea-8734-f98921ddb384.gif)
 
-Once the form is submitted, the order data collected defines the product prices that should be shown to the user. 
+Once the form is submitted, the order data collected available at MasterData. 
 
-:information_source: *When talking about B2B scenarios, keep in mind that price discounts (no matter how low they can be) are decisive factors in a purchase. The Order Configuration component therefore can play a decisive role for your B2B store sales taxes.*
+:information_source: *This app can be used to customize all kinds of behaviours, such as custom prices, custom products, etc. Keep in mind that this app does not offer such functionality, but enables these other apps to do so.*
 
 ## Configuration
 
-1. Add the `order-configuration` app to your theme's dependencies in the `manifest.json` file:
+### Step 1: Add the `order-configuration` app to your theme's dependencies in the `manifest.json` file:
 
 ```diff
  dependencies: {
@@ -35,7 +35,7 @@ Now, you are able to use the blocks exported by the `order-configuration` app. C
 | `order-config.modal` | Renders the modal responsible for displaying the component content. |
 | `order-config.form` | Renders the component content (a form to be filled out by users).  |
 
-2. Add the `order-config` block in the Header component. For example:
+### Step 2: Add the `order-config` block in the Header component. For example:
 
 ```diff
 {
@@ -64,7 +64,7 @@ Now, you are able to use the blocks exported by the `order-configuration` app. C
   },
 ```
 
-3.  Declare the `order-config#header` block and its children blocks: `order-config.title` and `order-config.modal`. For example:
+### Step 3:  Declare the `order-config#header` block and its children blocks: `order-config.title` and `order-config.modal`. For example:
 
 ```json
 {
@@ -127,6 +127,43 @@ Now, you are able to use the blocks exported by the `order-configuration` app. C
 ```
 
 :information_source: ***If the `order-config.form` block does not have any children configured, a default form will be rendered automatically based on the [React Hook Form JSON Schema](https://github.com/vtex/react-hook-form-jsonschema) library.*** To declare children blocks according to your business needs, check out the Advanced section below.
+
+### Step 4. Create a Schema named `main` at MasterData
+
+This step is required. The data entity used has to be `order_configuration` and the name of the schema has to be `main`. The schema should contain all the data that you added in the form above, otherwise the data will not be persisted.
+
+An example of schema to be persisted at MasterData, that is consistent with the data collected above:
+
+Request: `PUT` to `http://<your store>.vtexcommercestable.com.br/api/dataentities/order_configuration/schemas/main`
+Body:
+```
+{
+    "v-cache": false,
+    "properties": {
+        "clientId": {
+            "type": "string"
+        },
+        "orderType": {
+            "type": "string"
+        },
+        "state": {
+            "type": "string"
+        }
+    },
+    "v-default-fields": [
+        "clientId",
+        "orderType",
+        "state"
+    ],
+    "v-indexed": [
+        "clientId",
+        "orderType",
+        "state"
+    ]
+}
+```
+
+Refer to [MasterData documentation](https://developers.vtex.com/vtex-developer-docs/reference/schemashttps://developers.vtex.com/vtex-developer-docs/reference/schemas) for more details.
 
 ### Advanced configuration
 

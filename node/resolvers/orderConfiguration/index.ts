@@ -1,5 +1,14 @@
-import { selectOrderConfiguration } from "./selectOrderConfiguration";
+import { saveOrderConfiguration } from "./saveOrderConfiguration";
+import {orderConfiguration} from "./orderConfiguration";
 
 export const mutations = {
-  selectOrderConfiguration
+  saveOrderConfiguration
+};
+
+export const queries = {
+  /**
+   * Get user session custom keys
+   * @return String
+   */
+  orderConfiguration
 };
