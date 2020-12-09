@@ -11,14 +11,24 @@ export class Repository<T> {
                      private readonly shouldEnforceSchema: boolean) {
   }
 
+  public async delete(id: string): Promise<void> {
+    await this.masterData.deleteDocument({
+      dataEntity: this.dataEntity,
+      id,
+    });
+  }
+
   public async get(id: string): Promise<T> {
-    const document: Record<string, string | number> = await this.masterData.getDocument({
+    const document = await this.masterData.getDocument({
       dataEntity: this.dataEntity,
       id,
       fields: ["_all"]
     });
-    const conformingToSchemaDocument = await this.onlyInSchema(document);
-    return {...conformingToSchemaDocument, id: document.id} as unknown as T;
+    if (document === "") {
+      return {} as T;
+    }
+    const conformingToSchemaDocument = await this.onlyInSchema(document as Record<string, string | number>);
+    return {...conformingToSchemaDocument, id: (document as Record<string, string | number>).id} as unknown as T;
   }
 
   public async save(fields: Record<string, string | number>): Promise<string> {
@@ -28,7 +38,7 @@ export class Repository<T> {
       schema: this.schema,
       fields: fieldsInSchema,
     });
-    return documentResponse.Id;
+    return documentResponse.DocumentId;
   }
 
   public async update(id: string, fields: Record<string, string | number>): Promise<void> {

@@ -1,4 +1,12 @@
 {
   "extends": "@vtex/tsconfig",
-  "include": ["./typings/*.d.ts", "./**/*.tsx", "./**/*.ts"]
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS"
+  },
+  "include": [
+    "./typings/*.d.ts",
+    "./**/*.tsx",
+    "./**/*.ts"
+  ]
 }
