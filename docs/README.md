@@ -12,7 +12,8 @@ The Order Configuration app, designed for **B2B scenarios**, displays a form res
 
 ![order-configuration-gif](https://user-images.githubusercontent.com/52087100/91925199-e5125200-ecaa-11ea-8734-f98921ddb384.gif)
 
-Once the form is submitted, the order data collected available at MasterData. 
+
+Once the form is submitted, the order data collected will be available at MasterData and saved in the current VTEX session. 
 
 :information_source: *This app can be used to customize all kinds of behaviours, such as custom prices, custom products, etc. Keep in mind that this app does not offer such functionality, but enables these other apps to do so.*
 
