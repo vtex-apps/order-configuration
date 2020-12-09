@@ -28,4 +28,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn && yarn test
+        env:
+          STORE: ${{secrets.STORE}}
+          WORKSPACE: ${{secrets.WORKSPACE}}
+          APP_KEY: ${{secrets.APP_KEY}}
+          APP_TOKEN: ${{secrets.APP_TOKEN}}
         working-directory: node
