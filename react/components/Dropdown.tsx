@@ -15,16 +15,21 @@ import { useOrderConfiguration } from '../OrderConfigurationContext'
 export const DropdownInput: FC<BaseInputProps> = props => {
   const selectObject = useSelect(props.pointer)
   const { selectedValues, formFields } = useOrderConfiguration()
-  return <Dropdown selectObject={selectObject} label={props.label} formFields={formFields} defaultValues={selectedValues} />
+  return (
+    <Dropdown
+      selectObject={selectObject}
+      label={props.label}
+      formFields={formFields}
+      defaultValues={selectedValues}
+    />
+  )
 }
 
 export const Dropdown: FC<{
   selectObject: UseSelectReturnType
   label?: string
   formFields: FormField[]
-  defaultValues: {
-    [key: string]: string
-  }
+  defaultValues: Record<string, string | number>
 }> = props => {
   const { selectObject, formFields, defaultValues } = props
   const error = selectObject.getError()
@@ -33,13 +38,24 @@ export const Dropdown: FC<{
   const label = props.label ?? subSchema.title ?? selectObject.name
 
   const items = selectObject.getItems()
-  const keyValueOptions = pathOr([], ['options'], find(propEq('name', selectObject.name), formFields))
+  const keyValueOptions = pathOr(
+    [],
+    ['options'],
+    find(propEq('name', selectObject.name), formFields)
+  )
   const defaultValue = path([selectObject.name], defaultValues)
   const options = useMemo(() => {
     return items.map(value => {
-      return { value, label: pathOr(value, ['label'], find(propEq('value', value), keyValueOptions)) }
+      return {
+        value,
+        label: pathOr(
+          value,
+          ['label'],
+          find(propEq('value', value), keyValueOptions)
+        ),
+      }
     })
-  }, [items])
+  }, [items, keyValueOptions])
 
   return (
     <>

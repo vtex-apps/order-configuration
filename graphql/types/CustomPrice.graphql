@@ -1,5 +1,0 @@
-scalar JSONSchema
-
-type CustomPriceSchema {
-  schema: JSONSchema
-}

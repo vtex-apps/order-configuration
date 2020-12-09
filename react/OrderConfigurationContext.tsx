@@ -1,39 +1,38 @@
-import React, { createContext, useReducer, useContext } from 'react'
+import React, { createContext, useReducer, useContext, FC } from 'react'
 import { FormField } from './typings/FormProps'
-import { CustomSessionData } from './typings/global'
+import { OrderConfiguration } from './typings/global'
 
 const OrderConfigurationContext = createContext<State | undefined>(undefined)
 const OrderConfigurationDispatchContext = createContext<Dispatch | undefined>(
   undefined
 )
 
-type State = {
+interface State {
   isLoading: boolean
   modal: {
     isOpen: boolean
   }
-  selectedValues: CustomSessionData
-  profileData: ProfileData
+  selectedValues: OrderConfiguration
   formFields: FormField[]
 }
 
 type Dispatch = (action: Action) => void
 
-type SetLoadingAction = {
+interface SetLoadingAction {
   type: 'SET_LOADING'
   args: {
     isLoading: boolean
   }
 }
 
-type SetModalOpenAction = {
+interface SetModalOpenAction {
   type: 'SET_MODAL_OPEN'
   args: {
     isModalOpen: boolean
   }
 }
 
-type SetModalClosedAction = {
+interface SetModalClosedAction {
   type: 'SET_MODAL_CLOSED'
   args: {
     isModalOpen: boolean
@@ -55,7 +54,7 @@ export const reducer = (state: State, action: Action) => {
         ...state,
         modal: {
           ...state.modal,
-          isOpen: action.args.isModalOpen
+          isOpen: action.args.isModalOpen,
         },
       }
     }
@@ -64,8 +63,8 @@ export const reducer = (state: State, action: Action) => {
         ...state,
         modal: {
           ...state.modal,
-          isOpen: action.args.isModalOpen
-        }
+          isOpen: action.args.isModalOpen,
+        },
       }
     }
     default:
@@ -73,28 +72,18 @@ export const reducer = (state: State, action: Action) => {
   }
 }
 
-type Props = {
-  selectedValues: CustomSessionData
-  profileData: ProfileData
-  children: any
+interface Props {
+  selectedValues: OrderConfiguration
   formFields: FormField[]
 }
 
-type ProfileData = {
-  profile: {
-    email: string
-  }
-}
-
-export const OrderConfigurationContextProvider = ({
+export const OrderConfigurationContextProvider: FC<Props> = ({
   selectedValues,
-  profileData,
   formFields,
   children,
-}: Props) => {
+}) => {
   const initialState = {
     selectedValues,
-    profileData,
     formFields,
     isLoading: true,
     modal: {

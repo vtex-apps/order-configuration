@@ -1,33 +1,29 @@
 import React from 'react'
 import { useQuery } from 'react-apollo'
-import { omit, pathOr } from 'ramda'
 import { useCssHandles } from 'vtex.css-handles'
 
-import getCustomSessionKeys from './queries/getCustomSessionKeys.graphql'
-import getProfile from './queries/getProfile.graphql'
+import orderConfiguration from './queries/orderConfiguration.graphql'
 import { OrderConfigurationContextProvider } from './OrderConfigurationContext'
 import { FormField } from './typings/FormProps'
+import { fromFieldArrayFormat } from './logic/fromFieldArrayFormat'
 
 const CSS_HANDLES = ['loader', 'wrapper'] as const
 
-type Props = {
+interface Props {
   formFields: FormField[]
-  children: any
 }
 
-const CustomPriceSelector: StorefrontFunctionComponent<Props> = props => {
-  const { data: customSessionData, loading: customSessionLoading } = useQuery(
-    getCustomSessionKeys,
-    {
-      ssr: false,
-    }
-  )
-
-  const { data: profileData, loading: profileLoading } = useQuery(getProfile)
+const OrderConfigurationSelector: StorefrontFunctionComponent<Props> = props => {
+  const { data, loading } = useQuery(orderConfiguration, {
+    ssr: false,
+  })
+  const orderConfigurationFields =
+    data && data.orderConfiguration && data.orderConfiguration.fields
+  const orderConfigurationLoading = loading
 
   const handles = useCssHandles(CSS_HANDLES)
 
-  if (profileLoading || customSessionLoading) {
+  if (orderConfigurationLoading) {
     return (
       <div className={`h-100 flex items-center ${handles.loader}`}>
         Loading...
@@ -35,21 +31,13 @@ const CustomPriceSelector: StorefrontFunctionComponent<Props> = props => {
     )
   }
 
-  const selectedValues = omit(
-    ['email'],
-    JSON.parse(
-      pathOr(
-        '{}',
-        ['getCustomSessionKeys', 'customSessionKeys'],
-        customSessionData
-      )
-    )
-  )
+  const selectedValues = orderConfigurationFields
+    ? fromFieldArrayFormat(orderConfigurationFields)
+    : {}
 
   return (
     <OrderConfigurationContextProvider
       selectedValues={selectedValues}
-      profileData={profileData}
       formFields={props.formFields}
     >
       <div className={`mw9 center flex flex-column ${handles.wrapper}`}>
@@ -59,7 +47,7 @@ const CustomPriceSelector: StorefrontFunctionComponent<Props> = props => {
   )
 }
 
-CustomPriceSelector.schema = {
+OrderConfigurationSelector.schema = {
   title: 'admin/editor.custom-price-selector.title',
   description: 'admin/editor.custom-price-selector.description',
   type: 'object',
@@ -114,7 +102,15 @@ CustomPriceSelector.schema = {
             title: 'admin/editor.custom-price-selector.formFields.format',
             type: 'string',
             enum: ['', 'email', 'date-time', 'hostname', 'ipv4', 'ipv6', 'uri'],
-            enumNames: ['Not specified', 'Email', 'Date/time in ISO format', 'Internet host name', 'IPv4 address', 'IPv6 address', 'A universal resource identifier'],
+            enumNames: [
+              'Not specified',
+              'Email',
+              'Date/time in ISO format',
+              'Internet host name',
+              'IPv4 address',
+              'IPv6 address',
+              'A universal resource identifier',
+            ],
           },
           options: {
             title: 'admin/editor.custom-price-selector.formFields.options',
@@ -144,4 +140,4 @@ CustomPriceSelector.schema = {
   },
 }
 
-export default CustomPriceSelector
+export default OrderConfigurationSelector

@@ -21,9 +21,7 @@ import { FormField } from '../typings/FormProps'
 const SpecializedObject: FC<{
   baseObject: InputReturnTypes
   formFields: FormField[]
-  defaultValues: {
-    [key: string]: string
-  }
+  defaultValues: Record<string, string | number>
 }> = props => {
   switch (props.baseObject.type) {
     case InputTypes.input: {
@@ -32,11 +30,23 @@ const SpecializedObject: FC<{
     }
     case InputTypes.radio: {
       const radioObject = props.baseObject as UseRadioReturnType
-      return <RadioGroup radioObject={radioObject} formFields={props.formFields} defaultValues={props.defaultValues} />
+      return (
+        <RadioGroup
+          radioObject={radioObject}
+          formFields={props.formFields}
+          defaultValues={props.defaultValues}
+        />
+      )
     }
     case InputTypes.select: {
       const selectObject = props.baseObject as UseSelectReturnType
-      return <Dropdown selectObject={selectObject} formFields={props.formFields} defaultValues={props.defaultValues} />
+      return (
+        <Dropdown
+          selectObject={selectObject}
+          formFields={props.formFields}
+          defaultValues={props.defaultValues}
+        />
+      )
     }
     case InputTypes.textArea: {
       const textAreaObject = props.baseObject as UseTextAreaReturnType
@@ -62,7 +72,11 @@ export const ObjectMapper: FC<FormFieldGroupProps> = props => {
     <>
       {methods.map(obj => (
         <div className="pa5" key={`${obj.type}${obj.pointer}`}>
-          <SpecializedObject baseObject={obj} formFields={formFields} defaultValues={defaultValues} />
+          <SpecializedObject
+            baseObject={obj}
+            formFields={formFields}
+            defaultValues={defaultValues}
+          />
         </div>
       ))}
     </>

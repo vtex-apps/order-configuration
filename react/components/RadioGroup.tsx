@@ -16,16 +16,21 @@ export const RadioGroupInput: FC<BaseInputProps> = props => {
   const { pointer, label } = props
   const radioObject = useRadio(pointer)
   const { selectedValues, formFields } = useOrderConfiguration()
-  return <RadioGroup radioObject={radioObject} label={label} formFields={formFields} defaultValues={selectedValues} />
+  return (
+    <RadioGroup
+      radioObject={radioObject}
+      label={label}
+      formFields={formFields}
+      defaultValues={selectedValues}
+    />
+  )
 }
 
 export const RadioGroup: FC<{
   radioObject: UseRadioReturnType
   label?: string
   formFields: FormField[]
-  defaultValues: {
-    [key: string]: string
-  }
+  defaultValues: Record<string, string | number>
 }> = props => {
   const { radioObject, formFields, defaultValues } = props
   const error = radioObject.getError()
@@ -33,7 +38,11 @@ export const RadioGroup: FC<{
   const subSchema = radioObject.getObject()
   const label = props.label ?? subSchema.title ?? radioObject.name
 
-  const keyValueOptions = pathOr([], ['options'], find(propEq('name', radioObject.name), formFields))
+  const keyValueOptions = pathOr(
+    [],
+    ['options'],
+    find(propEq('name', radioObject.name), formFields)
+  )
   const defaultValue = path([radioObject.name], defaultValues)
 
   return (
@@ -49,7 +58,14 @@ export const RadioGroup: FC<{
           hideBorder
           label={label}
           options={radioObject.getItems().map(value => {
-            return { value, label: pathOr(value, ['label'], find(propEq('value', value), keyValueOptions)) }
+            return {
+              value,
+              label: pathOr(
+                value,
+                ['label'],
+                find(propEq('value', value), keyValueOptions)
+              ),
+            }
           })}
           error={!!error}
           errorMessage={useFormattedError(error)}

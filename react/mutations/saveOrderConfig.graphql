@@ -1,0 +1,3 @@
+mutation saveOrderConfig($orderConfig: OrderConfigInput!){
+  saveOrderConfiguration(orderConfig: $orderConfig)
+}

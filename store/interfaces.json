@@ -1,6 +1,6 @@
 {
   "order-config": {
-    "component": "CustomPriceSelector",
+    "component": "OrderConfigurationSelector",
     "composition": "children",
     "allowed": [
       "order-config.modal",

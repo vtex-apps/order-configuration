@@ -9,9 +9,7 @@ export interface BaseInputProps {
 export interface FormFieldGroupProps extends Omit<BaseInputProps, 'label'> {
   uiSchema?: UISchemaType
   formFields: FormField[]
-  defaultValues: {
-    [key: string]: string
-  }
+  defaultValues: Record<string, string | number>
 }
 
 export enum InputTypes {

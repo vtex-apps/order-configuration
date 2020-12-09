@@ -28,15 +28,19 @@ export const RawInput: FC<FormRawInputProps> = props => {
   const { pointer, label } = props
   const inputObject = useInput(pointer)
   const { selectedValues } = useOrderConfiguration()
-  return <Input inputObject={inputObject} label={label} defaultValues={selectedValues} />
+  return (
+    <Input
+      inputObject={inputObject}
+      label={label}
+      defaultValues={selectedValues}
+    />
+  )
 }
 
 export const Input: FC<{
   inputObject: UseRawInputReturnType
   label?: string
-  defaultValues?: {
-    [key: string]: string
-  }
+  defaultValues?: Record<string, string | number>
 }> = props => {
   const { inputObject, defaultValues } = props
   const error = inputObject.getError()

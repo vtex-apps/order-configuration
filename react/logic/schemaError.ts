@@ -31,10 +31,7 @@ const concatErrors = (
   return errors
 }
 
-const filterSchemaErrors = (
-  acc: SchemaError[],
-  message: GraphQLError
-) => {
+const filterSchemaErrors = (acc: SchemaError[], message: GraphQLError) => {
   if (message?.extensions?.exception?.response?.data?.errors) {
     return acc.concat(
       message.extensions.exception.response.data.errors.reduce(concatErrors, [])

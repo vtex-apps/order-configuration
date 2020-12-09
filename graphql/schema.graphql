@@ -1,26 +1,23 @@
 type Query {
 
   """
-  Get profile information to session users
+  Get orderConfiguration from our backend
   """
-  getSession: Session @cacheControl(scope: PRIVATE)
-  
-  """
-    Get customSessionKeys from Session
-  """
-  getCustomSessionKeys: CustomSessionKeyResponse @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
+  orderConfiguration: OrderConfig @cacheControl(scope: PRIVATE, maxAge: SHORT)
+}
 
-  """
-    Get custom price schema
-  """
-  customPriceSchema: CustomPriceSchema
+input FieldInput {
+  Key: String!
+  Value: String!
+}
+
+input OrderConfigInput {
+  fields: [FieldInput]
 }
 
 type Mutation {
   """
-    Update customSessionKeys in Session
+  Save an order configuration
   """
-  updateCustomSessionKeys(
-    sessionData: CustomSessionInput!
-  ): CustomSessionKeyResponse @cacheControl(scope: PRIVATE, maxAge: SHORT) @withSegment
+  saveOrderConfiguration(orderConfig: OrderConfigInput): Boolean @cacheControl(scope: PRIVATE, maxAge: SHORT)
 }

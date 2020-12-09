@@ -1,0 +1,8 @@
+type Field {
+  Key: String!
+  Value: String!
+}
+
+type OrderConfig {
+  fields: [Field]
+}
