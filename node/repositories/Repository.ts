@@ -61,6 +61,9 @@ export class Repository<T> {
       where: whereClause,
       pagination
     });
+    if (documents.length === 0) {
+      return [];
+    }
     const conformingDocuments: T[] = [];
     for (let document of documents) {
       conformingDocuments.push({...await this.onlyInSchema(document), id: document.id } as unknown as T);

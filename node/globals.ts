@@ -14,6 +14,8 @@ if (!global.metrics) {
   global.metrics = new MetricsAccumulator();
 }
 
+export type Context = ServiceContext<Clients, RecorderState, CustomContext>;
+
 declare global {
   type Context = ServiceContext<Clients, RecorderState, CustomContext>;
 

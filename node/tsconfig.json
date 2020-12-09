@@ -4,6 +4,9 @@
     "target": "ES6",
     "module": "CommonJS"
   },
+  "types": [
+    "node"
+  ],
   "include": [
     "./typings/*.d.ts",
     "./**/*.tsx",
