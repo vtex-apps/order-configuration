@@ -17,7 +17,8 @@ const OrderConfigurationSelector: StorefrontFunctionComponent<Props> = props => 
   const { data, loading } = useQuery(orderConfiguration, {
     ssr: false,
   })
-  const orderConfigurationFields = data?.orderConfiguration?.fields
+  const orderConfigurationFields =
+    data && data.orderConfiguration && data.orderConfiguration.fields
   const orderConfigurationLoading = loading
 
   const handles = useCssHandles(CSS_HANDLES)
