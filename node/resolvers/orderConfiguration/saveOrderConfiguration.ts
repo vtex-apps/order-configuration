@@ -1,4 +1,3 @@
-import {getOrderFormIdFromCookie} from "../../utils";
 import {fromFieldArrayFormat} from "../../utils/fromFieldArrayFormat";
 import {RepositoryFactory} from "../../repositories/RepositoryFactory";
 
@@ -8,7 +7,6 @@ interface Args {
   };
 }
 
-const CUSTOM_SESSION_KEY = "customSessionKeys";
 const VTEX_SESSION = "vtex_session";
 
 export const saveOrderConfiguration = async (
@@ -17,7 +15,7 @@ export const saveOrderConfiguration = async (
   ctx: Context
 ) => {
   const {
-    clients: { masterdata, session, checkout },
+    clients: { masterdata, session },
     cookies
   } = ctx;
 
@@ -29,19 +27,6 @@ export const saveOrderConfiguration = async (
   ]);
   const clientRepository = RepositoryFactory.getClientRepository(masterdata);
   const orderConfigRepository = RepositoryFactory.getOrderConfigurationRepository(masterdata);
-
-  await session.updateSession(
-    CUSTOM_SESSION_KEY,
-    orderConfig,
-    [],
-    sessionCookie
-  );
-
-  await checkout.setSingleCustomData(getOrderFormIdFromCookie(cookies)!, {
-    appId: "orderConfig",
-    appFieldName: "values",
-    value: JSON.stringify(adaptedOrderConfig)
-  });
 
   const userEmail = sessionData.namespaces?.profile?.email?.value;
 
