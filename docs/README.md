@@ -13,7 +13,7 @@ The Order Configuration app, designed for **B2B scenarios**, displays a form res
 ![order-configuration-gif](https://user-images.githubusercontent.com/52087100/91925199-e5125200-ecaa-11ea-8734-f98921ddb384.gif)
 
 
-Once the form is submitted, the order data collected will be available at MasterData and saved in the current VTEX session. 
+Once the form is submitted, the order data collected will be available at MasterData. 
 
 :information_source: *This app can be used to customize all kinds of behaviours, such as custom prices, custom products, etc. Keep in mind that this app does not offer such functionality, but enables these other apps to do so.*
 
@@ -131,7 +131,7 @@ Now, you are able to use the blocks exported by the `order-configuration` app. C
 
 ### Step 4. Create a Schema named `main` at MasterData
 
-This step is required. The data entity used has to be `order_configuration` and the name of the schema has to be `main`. The schema should contain all the data that you added in the form above, otherwise the data will not be persisted.
+This step is required. The data entity used has to be `order_configuration` and the name of the schema has to be `main`. The schema should contain all the data that you added in the form above, otherwise the data will not be persisted. Also, it is necessary to have a field of type string named `clientId` in the schema.
 
 An example of schema to be persisted at MasterData, that is consistent with the data collected above:
 
