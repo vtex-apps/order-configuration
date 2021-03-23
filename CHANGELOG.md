@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+- Setup Order Form Configuration.
+
 ## [2.0.0] - 2020-12-01
 
 ## [1.0.0] - 2020-12-01
