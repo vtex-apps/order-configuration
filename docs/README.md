@@ -1,6 +1,6 @@
 📢 Use this project, [contribute](https://github.com/vtex-apps/order-configuration) to it or open issues to help evolve it using [Store Discussion](https://github.com/vtex-apps/store-discussion).
 
-# Order Configuration 
+# Order Configuration
 
 <!-- DOCS-IGNORE:start -->
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -8,12 +8,12 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 <!-- DOCS-IGNORE:end -->
 
-The Order Configuration app, designed for **B2B scenarios**, displays a form responsible for collecting order data in a modal. 
+The Order Configuration app, designed for **B2B scenarios**, displays a form responsible for collecting order data in a modal.
 
 ![order-configuration-gif](https://user-images.githubusercontent.com/52087100/91925199-e5125200-ecaa-11ea-8734-f98921ddb384.gif)
 
 
-Once the form is submitted, the order data collected will be available at MasterData and saved in the current VTEX session. 
+Once the form is submitted, the order data collected will be available at MasterData and saved in the current VTEX session.
 
 :information_source: *This app can be used to customize all kinds of behaviours, such as custom prices, custom products, etc. Keep in mind that this app does not offer such functionality, but enables these other apps to do so.*
 
@@ -168,7 +168,7 @@ Refer to [MasterData documentation](https://developers.vtex.com/vtex-developer-d
 
 ### Advanced configuration
 
-If desired, you can declare the `order-config.form` block by adding and configuring the `formFields` prop and an array of form children blocks (whose descriptions you can find below). 
+If desired, you can declare the `order-config.form` block by adding and configuring the `formFields` prop and an array of form children blocks (whose descriptions you can find below).
 
 ```json
 {
@@ -270,21 +270,21 @@ If desired, you can declare the `order-config.form` block by adding and configur
 | `order-config.submit` | Renders a `Submit` button. |
 | `order-config.dropdown` | Renders the a dropdown field. |
 | `order-config.radiogroup` | Renders a radiogroup field. |
-| `order-config.text` | Renders a text field. | 
-| `order-config.textarea` | Renders a text field with a wider range of available characters. | 
-| `order-config.checkbox` | Renders a checkbox field. | 
+| `order-config.text` | Renders a text field. |
+| `order-config.textarea` | Renders a text field with a wider range of available characters. |
+| `order-config.checkbox` | Renders a checkbox field. |
 
 ### `order-config.dropdown`, `order-config.radiogroup`, `order-config.text`, `order-config.textarea`, and `order-config.checkbox` prop
 
 | Prop name | Type | Description  | Default Value |
 | --------- | -------- | ------------| ----------------- |
-| `pointer`  | `string` | Path to which the block must point in the `formFields` prop in order to properly work.  | `undefined`              | 
+| `pointer`  | `string` | Path to which the block must point in the `formFields` prop in order to properly work.  | `undefined`              |
 
 ### `order-config.form` prop
 
 | Prop name | Type | Description  | Default Value |
 | --------- | -------- | ------------| ----------------- |
-| `formFields`  | `object` | Object responsible for defining the form fields.  | `undefined`              | 
+| `formFields`  | `object` | Object responsible for defining the form fields.  | `undefined`              |
 
 - **`formFields` object:**
 
@@ -309,17 +309,18 @@ If desired, you can declare the `order-config.form` block by adding and configur
 In order to apply CSS customizations in this and other blocks, follow the instructions given in the recipe on [Using CSS Handles for store customization](https://vtex.io/docs/recipes/style/using-css-handles-for-store-customization).
 
 | CSS Handles |
-| ----------- | 
+| ----------- |
 | `formSubmitButton` |
 | `formSubmitContainer` |
 | `formErrorServer` |
 | `formErrorUserInput` |
-| `loader` | 
+| `loader` |
 | `orderConfigFormWrapper` |
-| `title` | 
+| `formObject` |
+| `title` |
 | `titleValues` |
 | `titleWrapper` |
-| `wrapper` | 
+| `wrapper` |
 
 <!-- DOCS-IGNORE:start -->
 ## Contributors ✨

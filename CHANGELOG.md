@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - Turning title inside header clickable
+- Adding CSS Handle to form group object
 
 ## [3.1.0] - 2020-12-09
 
