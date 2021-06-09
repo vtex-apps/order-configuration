@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { filter, pick, values } from 'ramda'
 import { useCssHandles } from 'vtex.css-handles'
-import { useOrderConfiguration } from './OrderConfigurationContext'
-
+import {
+  useOrderConfigurationDispatch,
+  useOrderConfiguration,
+} from './OrderConfigurationContext'
 const CSS_HANDLES = ['title', 'titleValues', 'titleWrapper'] as const
 
 const Title: StorefrontFunctionComponent<{
@@ -10,9 +12,18 @@ const Title: StorefrontFunctionComponent<{
 }> = props => {
   const handles = useCssHandles(CSS_HANDLES)
   const { selectedValues, formFields } = useOrderConfiguration()
+  const dispatch = useOrderConfigurationDispatch()
   const { formTitle } = props
+  const onModalOpen = useCallback(() => {
+    dispatch({ type: 'SET_MODAL_OPEN', args: { isModalOpen: true } })
+  }, [dispatch])
+
   return (
-    <div className={`flex items-center ${handles.titleWrapper}`}>
+    <div
+      onClick={onModalOpen}
+      aria-hidden="true"
+      className={`flex items-center shadow-hover ${handles.titleWrapper}`}
+    >
       <span className={`mr4 ${handles.title}`}>{formTitle}</span>
       <span className={`mr4 fw6 ${handles.titleValues}`}>
         {values(
