@@ -22,7 +22,7 @@ const Title: StorefrontFunctionComponent<{
     <div
       onClick={onModalOpen}
       aria-hidden="true"
-      className={`flex items-center ${handles.titleWrapper}`}
+      className={`flex items-center shadow-hover ${handles.titleWrapper}`}
     >
       <span className={`mr4 ${handles.title}`}>{formTitle}</span>
       <span className={`mr4 fw6 ${handles.titleValues}`}>
