@@ -9,7 +9,7 @@ import {
   UseTextAreaReturnType,
   UseCheckboxReturnType,
 } from 'react-hook-form-jsonschema'
-
+import { useCssHandles } from 'vtex.css-handles'
 import { Input } from './Input'
 import { TextArea } from './TextArea'
 import { RadioGroup } from './RadioGroup'
@@ -17,6 +17,8 @@ import { Dropdown } from './Dropdown'
 import { Checkbox } from './Checkbox'
 import { FormFieldGroupProps } from '../typings/InputProps'
 import { FormField } from '../typings/FormProps'
+
+const CSS_HANDLES = ['formObject'] as const
 
 const SpecializedObject: FC<{
   baseObject: InputReturnTypes
@@ -67,11 +69,15 @@ export const ObjectMapper: FC<FormFieldGroupProps> = props => {
     pointer,
     UISchema: uiSchema,
   })
+  const handles = useCssHandles(CSS_HANDLES)
 
   return (
     <>
       {methods.map(obj => (
-        <div className="pa5" key={`${obj.type}${obj.pointer}`}>
+        <div
+          className={`pa5 ${handles.formObject}`}
+          key={`${obj.type}${obj.pointer}`}
+        >
           <SpecializedObject
             baseObject={obj}
             formFields={formFields}
