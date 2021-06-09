@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.1.0] - 2021-06-09
+### Added
+- Turning title inside header clickable
+
 ## [3.1.0] - 2020-12-09
 
 ## [3.0.0] - 2020-12-09
