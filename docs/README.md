@@ -34,7 +34,7 @@ This will enable you to use the blocks exported by the `order-configuration` app
 | Block name     | Description                                     |
 | -------------- | ----------------------------------------------- |
 | `order-config` | Parent block only responsible for rendering its children blocks, that in turn build the Order Configuration component. |
-| `order-config.title` | Renders the component title, that is, the message text displayed for users to present the component. On the image above, the component title is `Order Configuration:`. |
+| `order-config.title` | Renders the component title, that is, the message text displayed for users to present the component. On the image above, the component title is `Order Configuration`. |
 | `order-config.modal` | Renders the modal responsible for displaying the component content. |
 | `order-config.form` | Renders the component content, that is, a form to be filled out by users.  |
 
