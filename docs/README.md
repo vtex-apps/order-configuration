@@ -8,37 +8,42 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 <!-- DOCS-IGNORE:end -->
 
-The Order Configuration app, designed for **B2B scenarios**, displays a form responsible for collecting order data in a modal.
+The **Order Configuration** app, designed for B2B scenarios, displays a form responsible for collecting order data in a modal.
 
 ![order-configuration-gif](https://user-images.githubusercontent.com/52087100/91925199-e5125200-ecaa-11ea-8734-f98921ddb384.gif)
 
 
-Once the form is submitted, the order data collected will be available at MasterData and saved in the current VTEX session.
+Once the form is submitted, the order data collected will be available at Master Data and saved in the current VTEX session.
 
-:information_source: *This app can be used to customize all kinds of behaviours, such as custom prices, custom products, etc. Keep in mind that this app does not offer such functionality, but enables these other apps to do so.*
+> ℹ This app can be used to enable customization of all kinds of behaviors, such as custom prices, custom products, etc. Keep in mind the Order Configuration app does not offer these functionalities, it only enables other apps to do so.
 
-## Configuration
+Follow the steps below to install and set up the **Order Configuration** app in your store.
 
-### Step 1: Add the `order-configuration` app to your theme's dependencies in the `manifest.json` file:
+### Step 1: Install the app
 
-```diff
+ First, you must add the `order-configuration` app to your theme's dependencies in the `manifest.json` file:
+
+```json
  dependencies: {
-+  "vtex.order-configuration": "0.x"
+   "vtex.order-configuration": "2.x"
  }
 ```
 
-Now, you are able to use the blocks exported by the `order-configuration` app. Check out the full list below:
+This will enable you to use the blocks exported by the `order-configuration` app. Check out the full list below:
 
 | Block name     | Description                                     |
 | -------------- | ----------------------------------------------- |
-| `order-config` | Parent block only responsible for rendering its children blocks (that in turn build the Order Configuration component). |
-| `order-config.title` | Renders the component title i.e. the message text displayed for users to present the component. On the gif above, the component title is `Order Configuration:`. |
+| `order-config` | Parent block only responsible for rendering its children blocks, that in turn build the Order Configuration component. |
+| `order-config.title` | Renders the component title, that is, the message text displayed for users to present the component. On the image above, the component title is `Order Configuration:`. |
 | `order-config.modal` | Renders the modal responsible for displaying the component content. |
-| `order-config.form` | Renders the component content (a form to be filled out by users).  |
+| `order-config.form` | Renders the component content, that is, a form to be filled out by users.  |
 
-### Step 2: Add the `order-config` block in the Header component. For example:
 
-```diff
+### Step 2: Declare the required blocks
+
+Add the `order-config` block in the Header component. For example:
+
+```json
 {
   "header-layout.desktop": {
     "children": [
@@ -65,7 +70,7 @@ Now, you are able to use the blocks exported by the `order-configuration` app. C
   },
 ```
 
-### Step 3:  Declare the `order-config#header` block and its children blocks: `order-config.title` and `order-config.modal`. For example:
+Then, declare the `order-config#header` block and its children blocks: `order-config.title` and `order-config.modal`. Example:
 
 ```json
 {
@@ -127,17 +132,19 @@ Now, you are able to use the blocks exported by the `order-configuration` app. C
 }
 ```
 
-:information_source: ***If the `order-config.form` block does not have any children configured, a default form will be rendered automatically based on the [React Hook Form JSON Schema](https://github.com/vtex/react-hook-form-jsonschema) library.*** To declare children blocks according to your business needs, check out the Advanced section below.
+> ℹ If the `order-config.form` block does not have any children configured, a default form will be rendered automatically based on the [React Hook Form JSON Schema](https://github.com/vtex/react-hook-form-jsonschema) library. To declare children blocks according to your business needs, check out the [Advanced configuration](#advanced-configuration) section below.
 
-### Step 4. Create a Schema named `main` at MasterData
+### Step 3: Create `main` schema in Master Data
 
-This step is required. The data entity used has to be `order_configuration` and the name of the schema has to be `main`. The schema should contain all the data that you added in the form above, otherwise the data will not be persisted.
+You must create a schema named `main` in Master Data, using the `order_configuration` data entity.
 
-An example of schema to be persisted at MasterData, that is consistent with the data collected above:
+You can place a request using the Save schema by name endpoint of the [Master Data API - v2](https://developers.vtex.com/vtex-rest-api/reference/schemas#saveschemabyname) to do so.
 
-Request: `PUT` to `http://<your store>.vtexcommercestable.com.br/api/dataentities/order_configuration/schemas/main`
-Body:
-```
+The schema should contain all the data that you added in the form above, otherwise the data will not be persisted.
+
+#### Request body example
+
+```json
 {
     "v-cache": false,
     "properties": {
@@ -164,7 +171,7 @@ Body:
 }
 ```
 
-Refer to [MasterData documentation](https://developers.vtex.com/vtex-developer-docs/reference/schemashttps://developers.vtex.com/vtex-developer-docs/reference/schemas) for more details.
+Refer to [Master Data API - v2 documentatin](https://developers.vtex.com/vtex-rest-api/reference/schemas#saveschemabyname) for more details.
 
 ### Advanced configuration
 
@@ -274,19 +281,16 @@ If desired, you can declare the `order-config.form` block by adding and configur
 | `order-config.textarea` | Renders a text field with a wider range of available characters. |
 | `order-config.checkbox` | Renders a checkbox field. |
 
-### `order-config.dropdown`, `order-config.radiogroup`, `order-config.text`, `order-config.textarea`, and `order-config.checkbox` prop
+#### Props
 
-| Prop name | Type | Description  | Default Value |
-| --------- | -------- | ------------| ----------------- |
-| `pointer`  | `string` | Path to which the block must point in the `formFields` prop in order to properly work.  | `undefined`              |
+Check out the description of the available props below.
 
-### `order-config.form` prop
+| Prop name | Type | Description  | Default Value | Block name |
+| --------- | -------- | ------------| ----------------- | -------- | 
+| `pointer`  | `string` | Path to which the block must point in the `formFields` prop in order to properly work.  | `undefined`              | `order-config.dropdown`, `order-config.radiogroup`, `order-config.text`, `order-config.textarea`, and `order-config.checkbox` |
+| `formFields`  | `object` | Object responsible for defining the form fields.  | `undefined`              | `order-config.form`  |
 
-| Prop name | Type | Description  | Default Value |
-| --------- | -------- | ------------| ----------------- |
-| `formFields`  | `object` | Object responsible for defining the form fields.  | `undefined`              |
-
-- **`formFields` object:**
+The `formFields` object contains the following props:
 
 | Prop name | Type | Description                                                                                                                                                                                                                                          | Default Value  |
 | --------| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
@@ -297,7 +301,7 @@ If desired, you can declare the `order-config.form` block by adding and configur
 | `showInTitle` | `boolean` |  Whether to display the value type accepted by the field on its name (`true`) or not (`false`). | `false`  |
 | `options` | `object` | Field options to be defined in case `select`, `radio`, or `checkbox` values were declared in the `fieldType` prop. | `undefined`  |
 
-- **`options` object:**
+The `options` object contains the following props:
 
 | Prop name   | Type                                 | Description                                                   | Default Value |
 | ----------- | ----------------------------------------- | -------------------------------------------------------------------------------------- | ----------------- |
