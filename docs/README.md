@@ -24,9 +24,9 @@ Follow the steps below to install and set up the **Order Configuration** app in 
  First, you must add the `order-configuration` app to your theme's dependencies in the `manifest.json` file:
 
 ```json
- dependencies: {
-   "vtex.order-configuration": "2.x"
- }
+dependencies: {
+  "vtex.order-configuration": "2.x"
+}
 ```
 
 This will enable you to use the blocks exported by the `order-configuration` app. Check out the full list below:
@@ -41,7 +41,7 @@ This will enable you to use the blocks exported by the `order-configuration` app
 
 ### Step 2: Declare the required blocks
 
-Add the `order-config` block in the Header component. For example:
+Add the `order-config` block in the Header component, as shown in the example below.
 
 ```json
 {
