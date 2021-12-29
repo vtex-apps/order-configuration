@@ -70,24 +70,29 @@ export const selectOrderConfiguration = async (
     value: JSON.stringify(orderConfig),
   })
 
-  const { value: userEmail } = sessionData.namespaces?.profile?.email
+
+  const userEmail = sessionData.namespaces?.profile?.email?.value
+
+  if(!userEmail) {
+    return { orderConfig }
+  }
 
   const [{ id }] = await masterdata.searchDocuments({
     dataEntity: CLIENT_ACRONYM,
-    schema: 'v1',
     fields: ['id'],
     pagination: {
       page: 1,
       pageSize: 1,
     },
+    schema: 'v1',
     where: `email=${userEmail}`,
   })
 
   await masterdata.updatePartialDocument({
     dataEntity: 'CL',
-    schema: 'v1',
     fields: { orderConfig },
     id,
+    schema: 'v1',
   })
 
   return {
