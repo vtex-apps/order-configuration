@@ -1,7 +1,7 @@
 {
   "vendor": "vtex",
   "name": "order-configuration",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "title": "Order Configuration",
   "description": "A custom price selector for B2B users",
   "defaultLocale": "pt-BR",
