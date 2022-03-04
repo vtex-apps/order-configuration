@@ -191,8 +191,6 @@ Then, place a `POST` [Update orderForm configuration](https://developers.vtex.co
         }
 ```
 
-You can refer to [Checkout API documentation](https://developers.vtex.com/vtex-developer-docs/reference/updateorderformconfiguration) for more information.
-
 #### Request body example
 
 ```json
@@ -232,6 +230,8 @@ You can refer to [Checkout API documentation](https://developers.vtex.com/vtex-d
     "maskStateOnAddress": true
 }
 ```
+
+You can refer to [Checkout API documentation](https://developers.vtex.com/vtex-developer-docs/reference/updateorderformconfiguration) for more information.
 
 
 ### Advanced configuration
