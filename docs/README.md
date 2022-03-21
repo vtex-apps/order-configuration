@@ -171,7 +171,68 @@ The schema should contain all the data that you added in the form above, otherwi
 }
 ```
 
-Refer to [Master Data API - v2 documentatin](https://developers.vtex.com/vtex-rest-api/reference/schemas#saveschemabyname) for more details.
+Refer to [Master Data API - v2 documentation](https://developers.vtex.com/vtex-rest-api/reference/schemas#saveschemabyname) for more details.
+
+### Step 4: Update orderForm configuration
+
+It is also necessary to configure a new app in the `orderForm`.
+
+First, place a `GET` [Get orderForm configuration](https://developers.vtex.com/vtex-developer-docs/reference/getorderformconfiguration) request to retrieve the current `orderForm` settings before updating them. By doing so you ensure that you will only change the properties you want in the next step.
+
+Then, place a `POST` [Update orderForm configuration](https://developers.vtex.com/vtex-developer-docs/reference/updateorderformconfiguration) request, setting the following object inside the `apps` object in the request body:
+
+```json
+        {
+            "fields": [
+                "values"
+            ],
+            "id": "orderconfig",
+            "major": 1
+        }
+```
+
+#### Request body example
+
+```json
+{
+    "paymentConfiguration": {
+        "requiresAuthenticationForPreAuthorizedPaymentOption": false,
+        "allowInstallmentsMerge": null,
+        "blockPaymentSession": null,
+        "paymentSystemToCheckFirstInstallment": null,
+        "defaultPaymentSystemToApplyOnUserOrderForm": null
+    },
+    "taxConfiguration": null,
+    "minimumQuantityAccumulatedForItems": 1,
+    "decimalDigitsPrecision": 2,
+    "minimumValueAccumulated": null,
+    "apps": [
+        {
+            "fields": [
+                "quoteId"
+            ],
+            "id": "b2b-quotes-graphql",
+            "major": 1
+        },
+        {
+            "fields": [
+                "values"
+            ],
+            "id": "orderconfig",
+            "major": 1
+        }
+    ],
+    "allowMultipleDeliveries": true,
+    "allowManualPrice": true,
+    "maxNumberOfWhiteLabelSellers": null,
+    "maskFirstPurchaseData": null,
+    "recaptchaValidation": "vtexcriteria",
+    "maskStateOnAddress": true
+}
+```
+
+You can refer to [Checkout API documentation](https://developers.vtex.com/vtex-developer-docs/reference/updateorderformconfiguration) for more information.
+
 
 ### Advanced configuration
 
