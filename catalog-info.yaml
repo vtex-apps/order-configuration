@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: order-configuration
+  annotations:
+    github.com/project-slug: vtex-apps/order-configuration
+spec:
+  type: other
+  lifecycle: unknown
+  owner: b-2-b-enabler
