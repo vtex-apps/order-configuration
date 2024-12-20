@@ -4,6 +4,7 @@ metadata:
   name: order-configuration
   annotations:
     github.com/project-slug: vtex-apps/order-configuration
+    backstage.io/techdocs-ref: dir:./
 spec:
   system: b2b-suite
   type: frontend-ui
