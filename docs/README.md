@@ -10,6 +10,8 @@
 
 The **Order Configuration** app, designed for B2B scenarios, displays a form responsible for collecting order data in a modal.
 
+> ℹ This specification applies to B2B Suite only.
+
 ![order-configuration-gif](https://user-images.githubusercontent.com/52087100/91925199-e5125200-ecaa-11ea-8734-f98921ddb384.gif)
 
 
